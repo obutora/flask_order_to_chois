@@ -60,7 +60,7 @@ def order_to_chois(in1y, out6m, iyakusyu):
     joinDF = joinDF.drop_duplicates(subset=['医薬品名'])
 
     needCheckDF = joinDF[joinDF['包装単位'].isnull()]
-    needCheckDF.to_csv('output/check.csv')
+    needCheckDF.to_csv(f'output/check.csv')
 
     # Nullになっている行を表示しておく
     # print('JANコードがNaNのもの')
@@ -102,4 +102,4 @@ def order_to_chois(in1y, out6m, iyakusyu):
     # orderDF.head()
 
     # %%
-    orderDF.to_csv('output/order.csv', encoding='cp932', index=False)
+    orderDF.to_csv(f'output/order.csv', encoding='cp932', index=False)
