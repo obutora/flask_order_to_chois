@@ -16,9 +16,9 @@ def hello():
     return render_template('index.html')
 
 
-@app.route('/html/<name>')
-def html(name):
-    return render_template('hello.html', name=name)
+# @app.route('/html/<name>')
+# def html(name):
+#     return render_template('hello.html', name=name)
 
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -50,16 +50,18 @@ def upload_file():
             )
 
             with zipfile.ZipFile('./output/result.zip', 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
-                zf.write('./output/check.csv')
-                zf.write('./output/detail.csv')
-                zf.write('./output/order.csv')
+                zf.write('./output/check.csv',
+                         arcname='【要確認】直近で発注歴がないJAN、発注する場合は手動でお願いします.csv')
+                zf.write('./output/detail.csv',
+                         arcname='【必要に応じて確認】発注予定リスト.csv')
+                zf.write('./output/order.csv', arcname='【CHOIS用】一括発注用ファイル.csv')
 
             return send_file(
                 './output/result.zip',
                 as_attachment=True
             )
         except:
-            return 'ファイルの送信に失敗しました'
+            return render_template('error.html')
     else:
         return redirect('/')
 

@@ -5,12 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="../static/src/output.css" rel="stylesheet" />
-    <title>Document</title>
+    <title>Order To Chois</title>
   </head>
   <body class="font-sans my-24 mx-20">
     <div class="flex content-center card">
       <div class="my-auto grow">
-        <h1 class="text-7xl font-bold text-slate-800">
+        <h1>
           Order
           <span class="gradText">To</span>
           Chois
@@ -198,6 +198,21 @@
     </div>
 
     <div class="mt-8 card">
+      <h2>Order To Chois の<span class="gradText">仕組み</span></h2>
+      <p class="text-sm text-slate-600 leading-relaxed">
+        Order To Choisでは、記述統計に基づいて出庫量を予測しています。<br />
+        まず、これまでの出庫量のバラつきを計算し、95%の確率で出庫量を推測します。<br />
+        予測される最大の出庫量から、現在の在庫数を引いた数値を充たすように、発注数を計算します。<br />
+
+        詳しくは、<a href="https://www.mcframe.com/column/demands/ju05.html"
+          >需要予測による在庫管理</a
+        >や、<a href="https://statg.com/kiso/confint.html"
+          >母平均の推定精度の指標【統計学・統計解析講義基礎】</a
+        >をご覧ください。
+      </p>
+    </div>
+
+    <div class="mt-8 card">
       <form method="POST" action="/upload" enctype="multipart/form-data">
         <ol class="items-center lg:flex space-y-20 lg:space-y-0">
           <li class="relative mb-6 sm:mb-0">
@@ -207,8 +222,14 @@
                 class="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"
               ></div>
             </div>
-            <div class="mt-8 sm:pr-8">
+            <div class="mt-8 sm:pr-8 lg:border-r lg:mr-8">
               <h3>過去1年分の<span class="gradText">入庫</span>データ</h3>
+              <ol class="list">
+                <li>CHOiSwefwef</li>
+                <li>CHOiSwewe</li>
+                <li>CHOiSwef</li>
+              </ol>
+
               <input
                 class="inputButton"
                 type="file"
@@ -224,8 +245,13 @@
                 class="hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"
               ></div>
             </div>
-            <div class="mt-8 sm:pr-8">
+            <div class="mt-8 sm:pr-8 lg:border-r lg:mr-8">
               <h3>5ヵ月分の<span class="gradText">出庫</span>データ</h3>
+              <ol class="list">
+                <li>CHOiSwefwef</li>
+                <li>CHOiSwewe</li>
+                <li>CHOiSwef</li>
+              </ol>
               <input
                 class="inputButton"
                 type="file"
@@ -243,6 +269,11 @@
             </div>
             <div class="mt-8 sm:pr-8">
               <h3><span class="gradText">医薬品集</span></h3>
+              <ol class="list">
+                <li>CHOiSwefwef</li>
+                <li>CHOiSwewe</li>
+                <li>CHOiSwef</li>
+              </ol>
               <input
                 class="inputButton"
                 type="file"
@@ -259,6 +290,14 @@
           >
             📝 作成する
           </button>
+        </div>
+
+        <div class="bg-orange-50 p-4 rounded-xl mt-8 text-slate-700">
+          <h3>🔥 注意</h3>
+          <p class="text-sm leading-relaxed">
+            一括発注用ファイルはエクセルで編集するとJANコードが自動で変更されてしまいます。<br />
+            開かずにCHOISへ取り込んでから「行削除」を使って削除してください。
+          </p>
         </div>
 
         <!-- <div class="grid grid-cols-3 gap-4">
