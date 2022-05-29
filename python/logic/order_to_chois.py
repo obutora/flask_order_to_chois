@@ -1,8 +1,11 @@
 
-def order_to_chois(in1y, out6m, iyakusyu):
-    import pandas as pd
-    import numpy as np
+import pandas as pd
+import numpy as np
+import warnings
+warnings.simplefilter('ignore', FutureWarning)
 
+
+def order_to_chois(in1y, out6m, iyakusyu):
     # %%
     # inDF = pd.read_csv('csv/in_past1y.csv', encoding='cp932')
     inDF = pd.read_csv(in1y, encoding='cp932')

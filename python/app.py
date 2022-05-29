@@ -3,7 +3,6 @@ import shutil
 from flask import Flask, redirect, send_file, request, render_template
 import zipfile
 
-from logic import foo
 from logic import order_to_chois
 
 
@@ -16,17 +15,17 @@ def hello():
     return render_template('index.html')
 
 
-# @app.route('/html/<name>')
-# def html(name):
-#     return render_template('hello.html', name=name)
+@app.route('/html/<name>')
+def html(name):
+    return render_template('hello.html', name=name)
 
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         try:
-            shutil.rmtree('upload')
-            shutil.rmtree('output')
+            shutil.rmtree('upload/')
+            shutil.rmtree('output/')
 
         except:
             print('no upload/output folder')
@@ -66,7 +65,5 @@ def upload_file():
         return redirect('/')
 
 
-@app.route('/func')
-def func():
-    foo.bar()
-    return 'func'
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=80, debug=True)
