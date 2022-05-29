@@ -5,9 +5,23 @@ import zipfile
 
 from logic import order_to_chois
 
-
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = './upload'
+
+# isLoading = False
+
+
+# @jsf.use(app)
+# class App:
+#     def __init__(self):
+#         self.isLoading = False
+
+#     def change(self):
+#         self.isLoading = not self.isLoading
+
+#         self.js.document.getElementById("progress").classList.remove("w-0")
+#         self.js.document.getElementById("progress").add(
+#             "w-8", "h-8", "animate-spin", "mr-2")
 
 
 @app.route('/')
@@ -15,13 +29,24 @@ def hello():
     return render_template('index.html')
 
 
-@app.route('/html/<name>')
-def html(name):
-    return render_template('hello.html', name=name)
+@app.route('/download')
+def download():
+    return send_file(
+        './output/result.zip',
+        as_attachment=True
+    )
 
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
+    # global isLoading
+    # isLoading = True
+    # App.change()
+    # time.sleep(1)
+    # isLoading = False
+
+    # return redirect('/download')
+
     if request.method == 'POST':
         try:
             shutil.rmtree('upload/')
@@ -55,10 +80,12 @@ def upload_file():
                          arcname='【必要に応じて確認】発注予定リスト.csv')
                 zf.write('./output/order.csv', arcname='【CHOIS用】一括発注用ファイル.csv')
 
-            return send_file(
-                './output/result.zip',
-                as_attachment=True
-            )
+            # return send_file(
+            #     './output/result.zip',
+            #     as_attachment=True
+            # )
+            return render_template('download.html')
+
         except:
             return render_template('error.html')
     else:
