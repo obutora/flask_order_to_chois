@@ -223,7 +223,7 @@
       </div>
 
       <form method="POST" action="/upload" enctype="multipart/form-data">
-        <ol class="items-center lg:flex space-y-20 lg:space-y-0">
+        <ol class="items-start xl:flex space-y-20 xl:space-y-0">
           <li class="relative mb-6 sm:mb-0">
             <div class="flex items-center">
               <div class="animatedBadge">Step 1</div>
@@ -233,10 +233,10 @@
             </div>
             <div class="mt-8 sm:pr-8 lg:border-r lg:mr-8">
               <h3>過去1年分の<span class="gradText">入庫</span>データ</h3>
-              <ol class="list">
-                <li>CHOiSwefwef</li>
-                <li>CHOiSwewe</li>
-                <li>CHOiSwef</li>
+              <ol class="list space-y-4">
+                <li>「在庫・棚卸」タブを開く</li>
+                <li>在庫一覧をクリック</li>
+                <li>医薬品集ボタンをクリック</li>
               </ol>
 
               <input
@@ -256,10 +256,12 @@
             </div>
             <div class="mt-8 sm:pr-8 lg:border-r lg:mr-8">
               <h3>5ヵ月分の<span class="gradText">出庫</span>データ</h3>
-              <ol class="list">
-                <li>CHOiSwefwef</li>
-                <li>CHOiSwewe</li>
-                <li>CHOiSwef</li>
+              <ol class="list space-y-4">
+                <li>「入庫・出庫」タブを開く</li>
+                <li>入庫・出庫伝票検索をクリック</li>
+                <li>入庫区分から、<br/>「仕入」「仕入（手書）」のみに✅</li>
+                <li>伝票日付を現在月を含まないように1年分設定<br/>* 今が2022/5なら、<br/>2021/5/01～2022/4/30と設定</li>
+                <li>「ファイル出力」から自分がわかるように名前を付けてCSVを保存</li>
               </ol>
               <input
                 class="inputButton"
@@ -278,10 +280,14 @@
             </div>
             <div class="mt-8 sm:pr-8">
               <h3><span class="gradText">医薬品集</span></h3>
-              <ol class="list">
-                <li>CHOiSwefwef</li>
-                <li>CHOiSwewe</li>
-                <li>CHOiSwef</li>
+              <ol class="list space-y-4">
+                <li>「入庫・出庫」タブを開く</li>
+                <li>出庫区分から、「処方」のみに✅</li>
+                <li>伝票日付を現在月を含まないように5～6か月分設定<br/>
+                  * 入庫と同じです。<br/>
+                  CHOISが1回に9999行しか出力できないので、<br/>
+                限界に達していたら月数を減らしてください</li>
+                <li>「ファイル出力」から自分がわかるように名前を付けてCSVを保存</li>
               </ol>
               <input
                 class="inputButton"
