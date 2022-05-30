@@ -10,6 +10,7 @@ def order_to_chois(in1y, out6m, iyakusyu):
     # inDF = pd.read_csv('csv/in_past1y.csv', encoding='cp932')
     inDF = pd.read_csv(in1y, encoding='cp932')
     inDF = inDF.loc[:, ['商品コード', '医薬品名', 'バラ換算数量', '箱数量']]
+    inDF = inDF.sort_index(ascending=False)
     inDF = inDF.drop_duplicates()
     inDF['包装単位'] = inDF['バラ換算数量'] / inDF['箱数量']
     inDF.drop(['バラ換算数量', '箱数量'], axis='columns')
@@ -87,11 +88,10 @@ def order_to_chois(in1y, out6m, iyakusyu):
     # 出庫量が0以下になるものは除外しておく
     joinDF = joinDF[joinDF['発注量'] > 0]
 
-    # 1箱 100Tとした時の発注箱数
-    # -(-x // y) は切り上げを表す
 
-    # joinDF['発注数'] = -(-joinDF['発注量'] // 100)
-    joinDF['発注数'] = -(-joinDF['発注量'] // joinDF['包装単位'])
+    # 四捨五入して発注数を決めている
+    joinDF['発注数'] = (joinDF['発注量'] / joinDF['包装単位']).round()
+    joinDF = joinDF[joinDF['発注数'] > 0]
     # display(joinDF.head())
 
     joinDF.to_csv('output/detail.csv', encoding='cp932')

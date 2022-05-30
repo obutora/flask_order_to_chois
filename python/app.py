@@ -8,22 +8,6 @@ from logic import order_to_chois
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = './upload'
 
-# isLoading = False
-
-
-# @jsf.use(app)
-# class App:
-#     def __init__(self):
-#         self.isLoading = False
-
-#     def change(self):
-#         self.isLoading = not self.isLoading
-
-#         self.js.document.getElementById("progress").classList.remove("w-0")
-#         self.js.document.getElementById("progress").add(
-#             "w-8", "h-8", "animate-spin", "mr-2")
-
-
 @app.route('/')
 def hello():
     return render_template('index.html')
@@ -39,13 +23,6 @@ def download():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
-    # global isLoading
-    # isLoading = True
-    # App.change()
-    # time.sleep(1)
-    # isLoading = False
-
-    # return redirect('/download')
 
     if request.method == 'POST':
         try:
