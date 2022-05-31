@@ -1,3 +1,5 @@
+# coding: UTF-8
+
 import os
 import shutil
 from flask import Flask, redirect, send_file, request, render_template
@@ -7,21 +9,6 @@ from logic import order_to_chois
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = './upload'
-
-# isLoading = False
-
-
-# @jsf.use(app)
-# class App:
-#     def __init__(self):
-#         self.isLoading = False
-
-#     def change(self):
-#         self.isLoading = not self.isLoading
-
-#         self.js.document.getElementById("progress").classList.remove("w-0")
-#         self.js.document.getElementById("progress").add(
-#             "w-8", "h-8", "animate-spin", "mr-2")
 
 
 @app.route('/')
@@ -39,13 +26,6 @@ def download():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
-    # global isLoading
-    # isLoading = True
-    # App.change()
-    # time.sleep(1)
-    # isLoading = False
-
-    # return redirect('/download')
 
     if request.method == 'POST':
         try:
@@ -93,4 +73,4 @@ def upload_file():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80, debug=True)
+    app.run(host="0.0.0.0", port=80, debug=False)

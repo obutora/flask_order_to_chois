@@ -1,0 +1,15 @@
+FROM python:3.9-slim-buster as build
+
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends build-essential gcc
+RUN apt-get install gunicorn -y
+
+COPY . /app/
+
+RUN pip install flask \
+    && pip install pandas 
+
+WORKDIR /app/python
+
+CMD ["gunicorn", "app:app"]
+
