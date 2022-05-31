@@ -1,4 +1,6 @@
 
+# coding: UTF-8
+
 import pandas as pd
 import numpy as np
 import warnings
@@ -87,7 +89,6 @@ def order_to_chois(in1y, out6m, iyakusyu):
 
     # 出庫量が0以下になるものは除外しておく
     joinDF = joinDF[joinDF['発注量'] > 0]
-
 
     # 四捨五入して発注数を決めている
     joinDF['発注数'] = (joinDF['発注量'] / joinDF['包装単位']).round()

@@ -1,24 +1,34 @@
-FROM python:3.9-slim-buster as build
-# FROM python:3.9-slim-bullseye as build
+# FROM python:3.9-slim-buster as build
 
-RUN apt-get update
-RUN apt-get install -y --no-install-recommends build-essential gcc
+# RUN apt-get update
+# RUN apt-get install -y --no-install-recommends build-essential gcc
 
-COPY . /app/
+# COPY . /app/
 
-RUN pip install flask \
-    && pip install numpy\
-    && pip install pandas
+# RUN pip install flask \
+#     && pip install numpy\
+#     && pip install pandas
 
 
 # WORKDIR /app/python
 
-# FROM python:3.9-slim-buster as main
-# FROM python:3.9-alpine as main
-# COPY --from=build /root/.local /root/.local
-# COPY --from=build /app/ /app/
+# CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+
+FROM python:3.9-slim-buster as build
+
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends build-essential gcc
+# RUN apt-get install gunicorn -y
+
+COPY . /app/
+
+RUN pip install flask \
+    && pip install pandas 
+
+RUN pip install gunicorn
 
 WORKDIR /app/python
-
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+EXPOSE 5000
+# coding: UTF-8
+CMD ["python", "-m", "gunicorn", "app:app", "-b", "0.0.0.0:5000"]
 
