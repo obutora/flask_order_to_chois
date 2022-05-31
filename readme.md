@@ -14,8 +14,17 @@ Excelで開くと、JANコードのデータが破損してしまう為、
 ダウンロードしたらそのままOrder To CHOIS に渡してください。
 ```
 
-## Docker コンテナ のセットアップ
+## ローカルのPython環境で動かす場合
+### 必要なライブラリ
+ - Flask
+ - Pandas
+ - Numpy
 
+### 実行
+`flask run --debugger --reload`　または `python -m flask run --debugger --reload`
+
+
+## Docker コンテナ で動かす場合のTips
 1. `docker stop flask`
 2. `docker system prune -f`
 3. `docker image build -t flask --no-cache .`
