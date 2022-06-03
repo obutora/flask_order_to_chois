@@ -10,6 +10,10 @@
   @apply p-8 shadow-md rounded-2xl shadow-blue-500/30;
 }
 
+.description {
+  @apply text-sm text-slate-600 leading-relaxed;
+}
+
 .gradText {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-sky-500 via-purple-400 to-indigo-500;
 }
