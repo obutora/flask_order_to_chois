@@ -43,8 +43,17 @@
 
     <script type="text/babel">
         'use strict';
-        // const editList = [1, 2, 3, 4, 5]
-        const editList = {{ data| tojson }}
+        const editList = [
+            {
+                "name": "name1",
+                "value": 1,
+            }, {
+                "name": "name2",
+                "value": 22,
+            },
+
+        ]
+        // const editList = {{ data| tojson }}
         // const editList = {{data}}
 
 
@@ -52,11 +61,39 @@
         const root = ReactDOM.createRoot(document.getElementById('root'));
 
         function Welcome() {
-            return editList.map((e) =>
-                <div className='flex'>
-                    <p>{e.name}</p>
-                    <p>{e.value}</p>
-                </div>)
+            return <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" className="px-6 py-3">
+                                Product name
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Color
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {editList.map(
+                            (e) =>
+                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                                {e.name}
+                            </th>
+                            <td className="px-6 py-4">
+                                {e.value}
+                            </td>
+                        </tr>
+                        )}
+
+                    </tbody>
+                </table>
+            </div>
+            // return editList.map((e) =>
+            //     <div classNameName='flex'>
+            //         <p>{e.name}</p>
+            //         <p>{e.value}</p>
+            //     </div>)
         }
         root.render(<Welcome />);
     </script>
