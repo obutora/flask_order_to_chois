@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../static/src/output.css" rel="stylesheet" />
+    <title>Order To Chois | Edit</title>
+</head>
+
+<body class="font-sans my-24 mx-20 text-slate-700">
+    <div class="card">
+        <h1>test</h1>
+        <p class="mt-4">
+            description
+            <!-- {{data}} -->
+        </p>
+        <p class="mt-4 text-slate-600"></p>
+
+        <div id="root"></div>
+
+
+        <div class="mt-20">
+            <a href="/" class="underline text-indigo-600 hover:text-violet-800">
+                トップ画面にもどる
+            </a>
+        </div>
+    </div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <!-- 
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script> -->
+
+    <script>
+        // toJsonするとなぜかリストとして取り出すことに成功する
+        // const test = {{ data|tojson }}
+        // console.log(test)
+    </script>
+
+    <script type="text/babel">
+        'use strict';
+        // const editList = [1, 2, 3, 4, 5]
+        const editList = {{ data| tojson }}
+        // const editList = {{data}}
+
+
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+
+        function Welcome() {
+            return editList.map((e) =>
+                <div className='flex'>
+                    <p>{e.name}</p>
+                    <p>{e.value}</p>
+                </div>)
+        }
+        root.render(<Welcome />);
+    </script>
+
+
+</body>
+
+</html>
