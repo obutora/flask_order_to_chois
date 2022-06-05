@@ -1,104 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="../static/src/output.css" rel="stylesheet" />
     <title>Order To Chois | Edit</title>
-</head>
+  </head>
 
-<body class="font-sans my-24 mx-20 text-slate-700">
+  <body class="font-sans my-24 mx-20 text-slate-700">
     <div class="card">
-        <h1>test</h1>
-        <p class="mt-4">
-            description
-            <!-- {{data}} -->
-        </p>
-        <p class="mt-4 text-slate-600"></p>
+      <h1>test</h1>
+      <p class="mt-4">
+        description
+        <!-- {{data}} -->
+      </p>
+      <p class="mt-4 text-slate-600"></p>
 
-        <div id="root"></div>
+      <div id="root"></div>
 
-
-        <div class="mt-20">
-            <a href="/" class="underline text-indigo-600 hover:text-violet-800">
-                トップ画面にもどる
-            </a>
+      <div class="text-right">
+        <div
+          class="linkButton inline-block cursor-pointer"
+          onclick="downloadCSV()"
+        >
+          download
         </div>
+      </div>
+
+      <div class="mt-20">
+        <a href="/" class="underline text-indigo-600 hover:text-violet-800">
+          トップ画面にもどる
+        </a>
+      </div>
     </div>
 
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <!-- 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script> -->
 
     <script>
-        // toJsonするとなぜかリストとして取り出すことに成功する
-        // const test = {{ data|tojson }}
-        // console.log(test)
+      // toJsonするとなぜかリストとして取り出すことに成功する
+      // const test = {{ data|tojson }}
+      // console.log(test)
     </script>
 
     <script type="text/babel">
-        'use strict';
-        const editList = [
-            {
-                "name": "name1",
-                "value": 1,
-            }, {
-                "name": "name2",
-                "value": 22,
-            },
+      "use strict";
+      const editList = [
+        {
+          name: "name1",
+          value: 1,
+        },
+        {
+          name: "name2",
+          value: 22,
+        },
+      ];
+      // const editList = {{ data| tojson }}
+      // const editList = {{data}}
 
-        ]
-        // const editList = {{ data| tojson }}
-        // const editList = {{data}}
+      const root = ReactDOM.createRoot(document.getElementById("root"));
 
+      function TableHead(props) {
+        return (
+          <thead className="text-xs text-indido-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              {props.heads.map((e, i) => (
+                <th
+                  key={e}
+                  scope="col"
+                  className={i === 0 ? "py-3 text-center" : "py-3 px-6"}
+                >
+                  {e}
+                </th>
+              ))}
+            </tr>
+          </thead>
+        );
+      }
 
+      // TODO head にデータをいれる
+      function EditableTable() {
+        return (
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 table-auto">
+              <TableHead heads={["a", "b", "c", "e", "f", "g"]} />
+              <tbody>
+                {editList.map((e) => (
+                  <tr
+                    key={e.name}
+                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                  >
+                    <th>
+                      <div className="flex items-center">
+                        <button
+                          className=" hover:bg-slate-200/60 rounded-lg mx-auto p-2"
+                          onClick={() => clickRemove(e.name)}
+                        >
+                          <svg
+                            width="24"
+                            height="24"
+                            className="mx-auto"
+                            fill="#F87171"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path d="M10.5 9H9v9h1.5V9Z"></path>
+                            <path d="M15 9h-1.5v9H15V9Z"></path>
+                            <path d="M3 4.5V6h1.5v15A1.5 1.5 0 0 0 6 22.5h12a1.5 1.5 0 0 0 1.5-1.5V6H21V4.5H3ZM6 21V6h12v15H6Z"></path>
+                            <path d="M15 1.5H9V3h6V1.5Z"></path>
+                          </svg>
+                        </button>
+                      </div>
+                    </th>
+                    <th
+                      scope="row"
+                      className="px-6 py-4 text-lg text-slate-800 dark:text-white whitespace-nowrap"
+                    >
+                      {e.name}
+                    </th>
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
+                    <td className="px-6 py-4">{e.value}</td>
+                    <td className="px-6 py-4">{e.value}</td>
+                    <td className="px-6 py-4">{e.value}</td>
+                    <td>
+                      <input
+                        type="text"
+                        className="p-2 border border-text-indido-700 rounded-lg"
+                        value={e.value}
+                        // TODO onchange
+                        onChange={(e) => {}}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+        // return editList.map((e) =>
+        //     <div classNameName='flex'>
+        //         <p>{e.name}</p>
+        //         <p>{e.value}</p>
+        //     </div>)
+      }
+      root.render(<EditableTable />);
 
-        function Welcome() {
-            return <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" className="px-6 py-3">
-                                Product name
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Color
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {editList.map(
-                            (e) =>
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                {e.name}
-                            </th>
-                            <td className="px-6 py-4">
-                                {e.value}
-                            </td>
-                        </tr>
-                        )}
+      function clickRemove(key) {
+        console.log(key);
+      }
 
-                    </tbody>
-                </table>
-            </div>
-            // return editList.map((e) =>
-            //     <div classNameName='flex'>
-            //         <p>{e.name}</p>
-            //         <p>{e.value}</p>
-            //     </div>)
+      function downloadCSV() {
+        // var blob = new Blob(["Hello, world!"], {
+        //   type: "text/plain;charset=utf-8",
+        // });
+        // saveAs(blob, "hello world.txt");
+
+        const csvFormat = (col) => `"${col}"`;
+
+        // 数値に csvFormatを適応すると " " が入ってしまうので不要
+        const csvData = [
+          ["列1", "列2", "列3"].map(csvFormat).join(","),
+          ["あいうえお", "かきくけこ", "さしすせそ"].map(csvFormat).join(","),
+          [1, 2, 3].join(","),
+          ["キズナアイ", "輝夜月", "虹河ラキ"].map(csvFormat).join(","),
+        ].join("\n");
+
+        const unicodeList = [];
+        for (let i = 0; i < csvData.length; i += 1) {
+          unicodeList.push(csvData.charCodeAt(i));
         }
-        root.render(<Welcome />);
+
+        // 変換処理の実施
+        const shiftJisCodeList = window.Encoding.convert(
+          unicodeList,
+          "sjis",
+          "unicode"
+        );
+        const uInt8List = new Uint8Array(shiftJisCodeList);
+
+        // csv書き込みの実装
+        const writeData = new Blob([uInt8List], { type: "text/csv" });
+
+        saveAs(writeData, `shift-jis-${new Date().getTime()}.csv`);
+      }
     </script>
-
-
-</body>
-
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"
+      integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/encoding-japanese/2.0.0/encoding.min.js"
+      integrity="sha512-AhAMtLXTbhq+dyODjwnLcSlytykROxgUhR+gDZmRavVCNj6Gjta5l+8TqGAyLZiNsvJhh3J83ElyhU+5dS2OZw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </body>
 </html>
