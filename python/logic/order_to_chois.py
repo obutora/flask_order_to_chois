@@ -11,13 +11,15 @@ def order_to_chois(in1y, out6m, iyakusyu):
     # %%
     # inDF = pd.read_csv('csv/in_past1y.csv', encoding='cp932')
     inDF = pd.read_csv(in1y, encoding='cp932')
-    inDF = inDF.loc[:, ['商品コード', '医薬品名', 'バラ換算数量', '箱数量']]
+    inDF = inDF.loc[:, ['商品コード', '医薬品名', 'バラ換算数量', '箱数量', '仕入単価']]
     inDF = inDF.sort_index(ascending=False)
     inDF = inDF.drop_duplicates()
     inDF['包装単位'] = inDF['バラ換算数量'] / inDF['箱数量']
     inDF.drop(['バラ換算数量', '箱数量'], axis='columns')
 
     inDF.rename(columns={'商品コード': 'JANコード'}, inplace=True)
+    # 逆順にする。仕入単価は毎回違うので最新の金額を反映するため
+    inDF[inDF.columns[::-1]]
     # orderDF.rename(columns={'医薬品名':'販売名称'}, inplace=True)
     # display(inDF.head())
     # display(len(inDF))
@@ -66,8 +68,8 @@ def order_to_chois(in1y, out6m, iyakusyu):
     joinDF = joinDF.drop_duplicates(subset=['医薬品名'])
 
     needCheckDF = joinDF[joinDF['包装単位'].isnull()]
-    needCheckDF.to_csv(
-        'output/check.csv', encoding='cp932')
+    # needCheckDF.to_csv(
+    #     'output/check.csv', encoding='cp932')
 
     # Nullになっている行を表示しておく
     # print('JANコードがNaNのもの')
@@ -85,7 +87,7 @@ def order_to_chois(in1y, out6m, iyakusyu):
     # SE = std / sqrt(n)
     # sqrt(5) = 2.236, sqrt(6)=2.449
     # 2SE ≒ 2 * std / sqrt(n) ≒ std
-    joinDF['発注量'] = joinDF['std'] + joinDF['avg'] - joinDF['在庫数量']
+    joinDF['発注量'] = 2*joinDF['std'] + joinDF['avg'] - joinDF['在庫数量']
 
     # 出庫量が0以下になるものは除外しておく
     joinDF = joinDF[joinDF['発注量'] > 0]
@@ -94,8 +96,10 @@ def order_to_chois(in1y, out6m, iyakusyu):
     joinDF['発注数'] = (joinDF['発注量'] / joinDF['包装単位']).round()
     joinDF = joinDF[joinDF['発注数'] > 0]
     # display(joinDF.head())
+    joinDF.drop(columns=['std', 'YJコード', 'バラ換算数量', '箱数量', '発注量'], inplace=True)
+    joinDF.rename(columns={'avg': '平均出庫量'}, inplace=True)
 
-    joinDF.to_csv('output/detail.csv', encoding='cp932')
+    # joinDF.to_csv('output/detail.csv', encoding='cp932')
 
     # %%
     orderDF = joinDF.loc[:, ['JANコード', '発注数', '医薬品名']]
@@ -110,4 +114,8 @@ def order_to_chois(in1y, out6m, iyakusyu):
     # orderDF.head()
 
     # %%
-    orderDF.to_csv('output/order.csv', encoding='cp932', index=False)
+    # orderDF.to_csv('output/order.csv', encoding='cp932', index=False)
+
+    json = list(joinDF.to_dict(orient='index').values())
+
+    return json

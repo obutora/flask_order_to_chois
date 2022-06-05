@@ -8,25 +8,12 @@
     <title>Order To Chois | Edit</title>
   </head>
 
-  <body class="font-sans my-24 mx-20 text-slate-700">
+  <body class="font-sans my-24 mx-2 xl:mx-20 text-slate-700 antialiased">
     <div class="card">
-      <h1>test</h1>
-      <p class="mt-4">
-        description
-        <!-- {{data}} -->
-      </p>
-      <p class="mt-4 text-slate-600"></p>
+      <h1>ファイル作成に<span class="gradText">成功！</span>🎉</h1>
+      <div id="description"></div>
 
       <div id="root"></div>
-
-      <div class="text-right">
-        <div
-          class="linkButton inline-block cursor-pointer"
-          onclick="downloadCSV()"
-        >
-          download
-        </div>
-      </div>
 
       <div class="mt-20">
         <a href="/" class="underline text-indigo-600 hover:text-violet-800">
@@ -44,6 +31,7 @@
       src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
     ></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
     <!-- 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script> -->
@@ -54,34 +42,244 @@
       // console.log(test)
     </script>
 
+    <script src="../static/js/names.js"></script>
+    <script src="../static/js/downloadCSV.js"></script>
+
     <script type="text/babel">
       "use strict";
-      const editList = [
-        {
-          name: "name1",
-          value: 1,
-        },
-        {
-          name: "name2",
-          value: 22,
-        },
+
+      // const editList = [
+      //   {
+      //     医薬品名:
+      //       "アイトロールawouhgaoreoairjghoaeirhgoaeriuhgoaeurhguhgoeapruighoaeruhg錠２０ｍｇ",
+      //     "2021-12": 230.0,
+      //     "2022-01": 290.0,
+      //     "2022-02": 90.0,
+      //     "2022-03": 290.0,
+      //     "2022-04": 260.0,
+      //     平均出庫量: 232.0,
+      //     在庫数量: 348.0,
+      //     JANコード: 4987142291212.0,
+      //     仕入単価: 980.0,
+      //     包装単位: 100.0,
+      //     発注数: 1.0,
+      //   },
+      //   {
+      //     医薬品名: "アザルフィジンＥＮ錠２５０ｍｇ",
+      //     "2021-12": 0.0,
+      //     "2022-01": 0.0,
+      //     "2022-02": 364.0,
+      //     "2022-03": 0.0,
+      //     "2022-04": 0.0,
+      //     平均出庫量: 72.8,
+      //     在庫数量: 36.0,
+      //     JANコード: 4987896000184.0,
+      //     仕入単価: 1853.0,
+      //     包装単位: 100.0,
+      //     発注数: 4.0,
+      //   },
+      //   {
+      //     医薬品名: "アジルバ錠１０ｍｇ",
+      //     "2021-12": 1394.5,
+      //     "2022-01": 1419.5,
+      //     "2022-02": 1100.5,
+      //     "2022-03": 1363.5,
+      //     "2022-04": 1318.5,
+      //     平均出庫量: 1319.3,
+      //     在庫数量: 475.5,
+      //     JANコード: 4987123153270.0,
+      //     仕入単価: 41783.0,
+      //     包装単位: 500.0,
+      //     発注数: 2.0,
+      //   },
+      //   {
+      //     医薬品名: "アジルバ錠２０ｍｇ",
+      //     "2021-12": 1171.0,
+      //     "2022-01": 1030.0,
+      //     "2022-02": 1192.0,
+      //     "2022-03": 973.0,
+      //     "2022-04": 1133.0,
+      //     平均出庫量: 1099.8,
+      //     在庫数量: 830.5,
+      //     JANコード: 4987123152235.0,
+      //     仕入単価: 62452.0,
+      //     包装単位: 500.0,
+      //     発注数: 1.0,
+      //   },
+      //   {
+      //     医薬品名: "アジルバ錠４０ｍｇ",
+      //     "2021-12": 151.0,
+      //     "2022-01": 197.0,
+      //     "2022-02": 137.0,
+      //     "2022-03": 184.0,
+      //     "2022-04": 175.0,
+      //     平均出庫量: 168.8,
+      //     在庫数量: 151.0,
+      //     JANコード: 4987123153317.0,
+      //     仕入単価: 18728.0,
+      //     包装単位: 100.0,
+      //     発注数: 1.0,
+      //   },
+      //   {
+      //     医薬品名: "アストミン錠１０ｍｇ",
+      //     "2021-12": 78.0,
+      //     "2022-01": 0.0,
+      //     "2022-02": 30.0,
+      //     "2022-03": 0.0,
+      //     "2022-04": 54.0,
+      //     平均出庫量: 32.4,
+      //     在庫数量: 49.0,
+      //     JANコード: 4987858100044.0,
+      //     仕入単価: 360.0,
+      //     包装単位: 100.0,
+      //     発注数: 1.0,
+      //   },
+      //   {
+      //     医薬品名: "アスパラ－ＣＡ錠２００",
+      //     "2021-12": 0.0,
+      //     "2022-01": 572.0,
+      //     "2022-02": 0.0,
+      //     "2022-03": 180.0,
+      //     "2022-04": 0.0,
+      //     平均出庫量: 150.4,
+      //     在庫数量: 128.0,
+      //     JANコード: 4987813704874.0,
+      //     仕入単価: 3672.0,
+      //     包装単位: 1000.0,
+      //     発注数: 1.0,
+      //   },
+      //   {
+      //     医薬品名: "アズノール軟膏０．０３３％",
+      //     "2021-12": 300.0,
+      //     "2022-01": 330.0,
+      //     "2022-02": 360.0,
+      //     "2022-03": 110.0,
+      //     "2022-04": 50.0,
+      //     平均出庫量: 230.0,
+      //     在庫数量: 300.0,
+      //     JANコード: 4987173016365.0,
+      //     仕入単価: 458.0,
+      //     包装単位: 200.0,
+      //     発注数: 1.0,
+      //   },
+      // ];
+
+      // NOTE : この部分はフロント実装後に書き換える
+      const editList = {{ data| tojson }}
+
+      const monthNames = getMonthNames(editList[0]);
+      const headNames = [
+        "削除",
+        "医薬品名",
+        ...monthNames,
+        "平均出庫",
+        "現在庫",
+        "仕入単価",
+        "包装単位",
+        "発注数",
       ];
-      // const editList = {{ data| tojson }}
-      // const editList = {{data}}
+
+      // NOTE: SVG  -------------------------------------------------------------
+
+      const sortSVG = (
+        <svg
+          width="20"
+          height="20"
+          fill="none"
+          className="m-1"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7.034 2a1 1 0 0 1 .945.673l2.793 8.069a1 1 0 0 1-1.89.654l-.412-1.19H5.597l-.411 1.19a1 1 0 0 1-1.89-.654l2.793-8.07A1 1 0 0 1 7.034 2Zm0 4.057-.744 2.15h1.488l-.744-2.15ZM4.749 13a1 1 0 1 0 0 2H8l-4.05 5.4a1 1 0 0 0 .8 1.6H10a1 1 0 1 0 0-2H6.75l4.05-5.4A1 1 0 0 0 10 13H4.75Zm7.544 3.293a1 1 0 0 1 1.414 0l2.292 2.292V3a1 1 0 1 1 2 0v15.586l2.294-2.293a1 1 0 0 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414Z"
+            fill="#4f46e599"
+          />
+        </svg>
+      );
+
+      const trashSVG = (
+        <svg
+          width="24"
+          height="24"
+          className="mx-auto"
+          fill="#F87171"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M10.5 9H9v9h1.5V9Z"></path>
+          <path d="M15 9h-1.5v9H15V9Z"></path>
+          <path d="M3 4.5V6h1.5v15A1.5 1.5 0 0 0 6 22.5h12a1.5 1.5 0 0 0 1.5-1.5V6H21V4.5H3ZM6 21V6h12v15H6Z"></path>
+          <path d="M15 1.5H9V3h6V1.5Z"></path>
+        </svg>
+      );
+
+      const backSVG = (
+        <svg
+          width="24"
+          height="24"
+          fill="none"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7 19a1 1 0 0 0 1 1h5c2.242 0 4.01-.778 5.218-2.023C19.414 16.744 20 15.113 20 13.5c0-1.613-.586-3.244-1.782-4.477C17.01 7.778 15.242 7 13 7H8.414l2.043-2.043a1 1 0 0 0-1.414-1.414l-3.75 3.75a1 1 0 0 0 0 1.414l3.75 3.75a1 1 0 0 0 1.414-1.414L8.414 9H13c1.758 0 2.99.597 3.782 1.415.804.83 1.218 1.948 1.218 3.085s-.414 2.256-1.218 3.085C15.99 17.403 14.758 18 13 18H8a1 1 0 0 0-1 1Z"
+            fill="#F6F6F6"
+          />
+        </svg>
+      );
+
+      //----------------------------------------------------------------------
+
+      const desc = ReactDOM.createRoot(document.getElementById("description"));
+      function Description() {
+        return (
+          <ol className="p-4 mt-4 mb-8 ml-4 text-sm leading-relaxed">
+            <li>
+              ・画面👇にあるボタンから一括発注用ファイルをダウンロードできます
+            </li>
+            <li>
+              ・表の右側にある「
+              <span className="gradText fonr-semibold">発注数</span>
+              」を変えることで、発注量を変えることもできます。
+            </li>
+            <li className="flex">
+              ・{sortSVG} 👈を押すと、リストを並び替えることができます。
+            </li>
+          </ol>
+        );
+      }
+      desc.render(<Description />);
 
       const root = ReactDOM.createRoot(document.getElementById("root"));
-
       function TableHead(props) {
         return (
-          <thead className="text-xs text-indido-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <thead className="text-sm text-indido-700 uppercase bg-gray-50">
             <tr>
               {props.heads.map((e, i) => (
                 <th
                   key={e}
                   scope="col"
-                  className={i === 0 ? "py-3 text-center" : "py-3 px-6"}
+                  className={
+                    i === 0
+                      ? "py-3 text-center"
+                      : i === 1
+                      ? "pl-6 mr-4"
+                      : "py-3 mr-4"
+                  }
                 >
-                  {e}
+                  <div className="flex items-center">
+                    {e}
+                    {e != "削除" ? (
+                      <button
+                        className="flex justify-end"
+                        onClick={(_) => props.onSort(e)}
+                      >
+                        {sortSVG}
+                      </button>
+                    ) : (
+                      <div></div>
+                    )}
+                  </div>
                 </th>
               ))}
             </tr>
@@ -89,111 +287,184 @@
         );
       }
 
+      function TableBody(props) {
+        return props.body.map((e) => (
+          <tr
+            key={e["医薬品名"]}
+            className="bg-white border-b dark:bg-gray-800 hover:bg-indigo-100/30 text-slate-700"
+          >
+            <th>
+              <div className="flex items-start">
+                <button
+                  className=" hover:bg-slate-200/60 rounded-lg mx-auto p-2"
+                  onClick={() => props.onClickRemove(e)}
+                >
+                  {trashSVG}
+                </button>
+              </div>
+            </th>
+            <td
+              scope="row"
+              className="px-4 py-4 max-w-xs xl:text-lg text-slate-600 font-semibold break-all"
+            >
+              {e["医薬品名"]}
+            </td>
+            {monthNames.map((month) => (
+              <td
+                key={month}
+                className="w-20 text-base font-semibold font-['Segoe_UI']"
+              >
+                {e[month]}
+              </td>
+            ))}
+
+            {bodyNames.map((body) => (
+              <td
+                key={body}
+                className="w-20 text-base font-semibold font-['Segoe_UI']"
+              >
+                {e[body]}
+              </td>
+            ))}
+            <td>
+              <input
+                type="number"
+                className="p-2 font-semibold text-base rounded-lg w-12 border focus:border focus:outline-none focus:border-indigo-400/60 focus:ring-indigo-400/60 focus:ring-2 "
+                value={e["発注数"]}
+                // TODO onchange
+                onChange={(inputValue) => props.onChange(e, inputValue)}
+              />
+            </td>
+          </tr>
+        ));
+      }
+
       // TODO head にデータをいれる
       function EditableTable() {
-        return (
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 table-auto">
-              <TableHead heads={["a", "b", "c", "e", "f", "g"]} />
-              <tbody>
-                {editList.map((e) => (
-                  <tr
-                    key={e.name}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                  >
-                    <th>
-                      <div className="flex items-center">
-                        <button
-                          className=" hover:bg-slate-200/60 rounded-lg mx-auto p-2"
-                          onClick={() => clickRemove(e.name)}
-                        >
-                          <svg
-                            width="24"
-                            height="24"
-                            className="mx-auto"
-                            fill="#F87171"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path d="M10.5 9H9v9h1.5V9Z"></path>
-                            <path d="M15 9h-1.5v9H15V9Z"></path>
-                            <path d="M3 4.5V6h1.5v15A1.5 1.5 0 0 0 6 22.5h12a1.5 1.5 0 0 0 1.5-1.5V6H21V4.5H3ZM6 21V6h12v15H6Z"></path>
-                            <path d="M15 1.5H9V3h6V1.5Z"></path>
-                          </svg>
-                        </button>
-                      </div>
-                    </th>
-                    <th
-                      scope="row"
-                      className="px-6 py-4 text-lg text-slate-800 dark:text-white whitespace-nowrap"
-                    >
-                      {e.name}
-                    </th>
+        const [data, setData] = React.useState(editList);
 
-                    <td className="px-6 py-4">{e.value}</td>
-                    <td className="px-6 py-4">{e.value}</td>
-                    <td className="px-6 py-4">{e.value}</td>
-                    <td>
-                      <input
-                        type="text"
-                        className="p-2 border border-text-indido-700 rounded-lg"
-                        value={e.value}
-                        // TODO onchange
-                        onChange={(e) => {}}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        // {"index", "value"}をもつオブジェクトとして保管しておく
+        const [removedData, setRemoved] = React.useState([]);
+        // {"sortKey", isAsc} をもつオブジェクトとして保管しておく
+        const [sort, setSort] = React.useState({
+          sortKey: "医薬品名",
+          isAsc: true,
+        });
+
+        return (
+          <div>
+            <div className="relative overflow-x-auto sm:rounded-lg h-[40rem]">
+              <div className="gap-2 flex mb-4 pb-2 items-center sticky top-0 block bg-white/80">
+                <button
+                  onClick={() => {
+                    // console.log(removedData);
+                    const pastObject = removedData[removedData.length - 1];
+
+                    // console.log(pastObject);
+
+                    if (pastObject) {
+                      let newData = [...data];
+                      newData.splice(
+                        pastObject["index"],
+                        0,
+                        pastObject["value"]
+                      );
+                      // console.log(newData);
+
+                      setData(newData);
+
+                      let newRemovedData = [...removedData];
+                      newRemovedData.pop();
+
+                      setRemoved(newRemovedData);
+                    }
+                  }}
+                  className="flex gap-2 shadow-indigo-500/30 text-right bg-slate-500 hover:bg-slate-400 text-white font-bold px-4 py-2 rounded-full tracking-wider "
+                >
+                  {backSVG}
+                  削除したデータをもどす
+                </button>
+              </div>
+              <table className="w-full shadow-md text-sm text-left text-gray-500 dark:text-gray-400 table-auto border-collapse">
+                <TableHead
+                  heads={headNames}
+                  onSort={(keyName) => {
+                    // console.log(keyName);
+                    // console.log(sort.isAsc);
+
+                    let newSort = [...data];
+
+                    newSort.sort(function (a, b) {
+                      if (sort.isAsc) {
+                        return a[keyName] > b[keyName] ? 1 : -1;
+                      } else {
+                        return b[keyName] > a[keyName] ? 1 : -1;
+                      }
+                    });
+
+                    console.log(newSort);
+
+                    setData(newSort);
+                    setSort({
+                      sortKey: keyName,
+                      isAsc: !sort.isAsc,
+                    });
+                  }}
+                />
+                <tbody>
+                  <TableBody
+                    body={data}
+                    onChange={(col, inputValue) => {
+                      if (inputValue) {
+                        const targetIndex = data.findIndex(
+                          (e) => col["医薬品名"] === e["医薬品名"]
+                        );
+
+                        let newData = [...data];
+                        newData[targetIndex]["発注数"] =
+                          inputValue.target.value;
+
+                        // console.log(newData[targetIndex]);
+
+                        setData(newData);
+                      }
+                    }}
+                    onClickRemove={(removeData) => {
+                      const targetIndex = data.findIndex(
+                        (e) => removeData["医薬品名"] === e["医薬品名"]
+                      );
+                      console.log(targetIndex);
+
+                      setRemoved([
+                        ...removedData,
+                        {
+                          index: targetIndex,
+                          value: data[targetIndex],
+                        },
+                      ]);
+
+                      setData(
+                        data.filter(
+                          (e) => e["医薬品名"] !== removeData["医薬品名"]
+                        )
+                      );
+                    }}
+                  />
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-4 text-right">
+              <div
+                className="linkButton inline-block cursor-pointer"
+                onClick={() => downloadCSV(data)}
+              >
+                発注用ファイルをダウンロード
+              </div>
+            </div>
           </div>
         );
-        // return editList.map((e) =>
-        //     <div classNameName='flex'>
-        //         <p>{e.name}</p>
-        //         <p>{e.value}</p>
-        //     </div>)
       }
       root.render(<EditableTable />);
-
-      function clickRemove(key) {
-        console.log(key);
-      }
-
-      function downloadCSV() {
-        // var blob = new Blob(["Hello, world!"], {
-        //   type: "text/plain;charset=utf-8",
-        // });
-        // saveAs(blob, "hello world.txt");
-
-        const csvFormat = (col) => `"${col}"`;
-
-        // 数値に csvFormatを適応すると " " が入ってしまうので不要
-        const csvData = [
-          ["列1", "列2", "列3"].map(csvFormat).join(","),
-          ["あいうえお", "かきくけこ", "さしすせそ"].map(csvFormat).join(","),
-          [1, 2, 3].join(","),
-          ["キズナアイ", "輝夜月", "虹河ラキ"].map(csvFormat).join(","),
-        ].join("\n");
-
-        const unicodeList = [];
-        for (let i = 0; i < csvData.length; i += 1) {
-          unicodeList.push(csvData.charCodeAt(i));
-        }
-
-        // 変換処理の実施
-        const shiftJisCodeList = window.Encoding.convert(
-          unicodeList,
-          "sjis",
-          "unicode"
-        );
-        const uInt8List = new Uint8Array(shiftJisCodeList);
-
-        // csv書き込みの実装
-        const writeData = new Blob([uInt8List], { type: "text/csv" });
-
-        saveAs(writeData, `shift-jis-${new Date().getTime()}.csv`);
-      }
     </script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"

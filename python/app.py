@@ -27,8 +27,48 @@ def edit():
     # ]
 
     dataList = [
-        Order('name1', 11).toJson(),
-        Order('name2', 22).toJson()
+        {
+            "医薬品名": "アミティーザカプセル２４μｇ",
+            "2021-12": 341.0,
+            "2022-01": 231.0,
+            "2022-02": 495.0,
+            "2022-03": 373.0,
+            "2022-04": 296.0,
+            "平均出庫量": 347.2,
+            "在庫数量": 144.0,
+            "JANコード": 4987888172097.0,
+            "仕入単価": 9818.0,
+            "包装単位": 100.0,
+            "発注数": 4.0,
+        },
+        {
+            "医薬品名": "アミユー配合顆粒",
+            "2021-12": 595.0,
+            "2022-01": 557.0,
+            "2022-02": 432.0,
+            "2022-03": 742.0,
+            "2022-04": 354.0,
+            "平均出庫量": 536.0,
+            "在庫数量": 588.0,
+            "JANコード": 4987476165203.0,
+            "仕入単価": 12006.0,
+            "包装単位": 210.0,
+            "発注数": 1.0,
+        },
+        {
+            "医薬品名": "アデホスコーワ顆粒１０％",
+            "2021-12": 411.0,
+            "2022-01": 908.0,
+            "2022-02": 452.0,
+            "2022-03": 413.0,
+            "2022-04": 861.0,
+            "平均出庫量": 609.0,
+            "在庫数量": 652.0,
+            "JANコード": 4987770528803.0,
+            "仕入単価": 10848.0,
+            "包装単位": 600.0,
+            "発注数": 1.0,
+        },
     ]
 
     return render_template('edit.html', data=dataList)
@@ -46,12 +86,12 @@ def download():
 def upload_file():
 
     if request.method == 'POST':
-        try:
-            shutil.rmtree('upload/')
-            shutil.rmtree('output/')
+        # try:
+        #     shutil.rmtree('upload/')
+        #     shutil.rmtree('output/')
 
-        except:
-            print('no upload/output folder')
+        # except:
+        #     print('no upload/output folder')
 
         os.mkdir('upload/')
         os.mkdir('output/')
@@ -69,24 +109,28 @@ def upload_file():
             file2.save(os.path.join('./upload/', file2.filename))
             file3.save(os.path.join('./upload/', file3.filename))
 
-            order_to_chois.order_to_chois(
+            json = order_to_chois.order_to_chois(
                 os.path.join('./upload/', file1.filename),
                 os.path.join('./upload/', file2.filename),
                 os.path.join('./upload/', file3.filename)
             )
 
-            with zipfile.ZipFile('./output/result.zip', 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
-                zf.write('./output/check.csv',
-                         arcname='【要確認】直近で発注歴がないJAN、発注する場合は手動でお願いします.csv')
-                zf.write('./output/detail.csv',
-                         arcname='【必要に応じて確認】発注予定リスト.csv')
-                zf.write('./output/order.csv', arcname='【CHOIS用】一括発注用ファイル.csv')
+            try:
+                shutil.rmtree('upload/')
+                shutil.rmtree('output/')
 
-            # return send_file(
-            #     './output/result.zip',
-            #     as_attachment=True
-            # )
-            return render_template('download.html')
+            except:
+                print('no upload/output folder')
+
+            # with zipfile.ZipFile('./output/result.zip', 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
+            #     zf.write('./output/check.csv',
+            #              arcname='【要確認】直近で発注歴がないJAN、発注する場合は手動でお願いします.csv')
+            #     zf.write('./output/detail.csv',
+            #              arcname='【必要に応じて確認】発注予定リスト.csv')
+            #     zf.write('./output/order.csv', arcname='【CHOIS用】一括発注用ファイル.csv')
+
+            # return render_template('download.html')
+            return render_template('edit.html', data=json)
 
         except:
             return render_template('error.html')

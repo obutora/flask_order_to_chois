@@ -2,3 +2,6 @@
 *.zip
 
 /node_modules
+
+/python/app.build
+/python/app.dist
