@@ -8,10 +8,18 @@
     <title>Order To Chois | Edit</title>
   </head>
 
-  <body class="font-sans my-24 mx-2 xl:mx-20 text-slate-700 antialiased">
-    <div class="card">
+  <body class="font-sans my-24 mx-2 xl:mx-4 text-slate-700 antialiased">
+    <div class="p-4 shadow-md rounded-2xl shadow-blue-500/30">
       <h1>ファイル作成に<span class="gradText">成功！</span>🎉</h1>
       <div id="description"></div>
+      <div class="bg-orange-50 ml-8 p-4 rounded-xl mb-12 text-slate-700">
+        <h3>🔥 注意</h3>
+        <ol class="text-sm leading-relaxed">
+          <li>・包装は、CHOISにファイルを取り込んだ後に変更可能なので必要に応じてメモしておきましょう。</li>
+          <li>・「削除したデータをもどす」機能はβ版です。並べ替え後に並び替え前の薬を戻すと場所が変わって危険です。</li>
+          <li>・出庫数は小数点1桁を四捨五入して表示しています。</li>
+        </p>
+      </div>
 
       <div id="root"></div>
 
@@ -65,7 +73,7 @@
       //     発注数: 1.0,
       //   },
       //   {
-      //     医薬品名: "アザルフィジンＥＮ錠２５０ｍｇ",
+      //     医薬品名: "アザ",
       //     "2021-12": 0.0,
       //     "2022-01": 0.0,
       //     "2022-02": 364.0,
@@ -79,7 +87,7 @@
       //     発注数: 4.0,
       //   },
       //   {
-      //     医薬品名: "アジルバ錠１０ｍｇ",
+      //     医薬品名: "アジル",
       //     "2021-12": 1394.5,
       //     "2022-01": 1419.5,
       //     "2022-02": 1100.5,
@@ -345,9 +353,9 @@
       const desc = ReactDOM.createRoot(document.getElementById("description"));
       function Description() {
         return (
-          <ol className="p-4 mt-4 mb-8 ml-4 text-sm leading-relaxed">
+          <ol className="p-4 mt-4 ml-4 text-sm leading-relaxed">
             <li>
-              ・画面👇にあるボタンから一括発注用ファイルをダウンロードできます
+              ・画面👇にあるボタンから一括発注用ファイルをダウンロードできます。
             </li>
             <li>
               ・表の右側にある「
@@ -373,10 +381,10 @@
                   scope="col"
                   className={
                     i === 0
-                      ? "py-3 text-center"
+                      ? "py-3 text-center w-12"
                       : i === 1
                       ? "pl-6 mr-4"
-                      : "py-3 mr-4"
+                      : "py-3 mr-4 max-w-[80px]"
                   }
                 >
                   <div className="flex items-center">
@@ -417,31 +425,31 @@
             </th>
             <td
               scope="row"
-              className="px-4 py-4 max-w-xs xl:text-lg text-slate-600 font-semibold break-all"
+              className="px-4 py-4 xl:text-lg text-slate-600 font-semibold break-all"
             >
               {e["医薬品名"]}
             </td>
             {monthNames.map((month) => (
               <td
                 key={month}
-                className="w-20 text-base font-semibold font-['Segoe_UI']"
+                className="max-w-[80px] text-base font-semibold font-['Segoe_UI']"
               >
-                {e[month]}
+                {e[month].toFixed(1)}
               </td>
             ))}
 
             {bodyNames.map((body) => (
               <td
                 key={body}
-                className="w-20 text-base font-semibold font-['Segoe_UI']"
+                className="max-w-[80px] text-base font-semibold font-['Segoe_UI']"
               >
-                {e[body]}
+                {e[body].toFixed(1)}
               </td>
             ))}
             <td>
               <input
                 type="number"
-                className="p-2 font-semibold text-base rounded-lg w-14 border focus:border focus:outline-none focus:border-indigo-400/60 focus:ring-indigo-400/60 focus:ring-2 "
+                className="p-2 font-semibold text-base rounded-lg max-w-[80px] border focus:border focus:outline-none focus:border-indigo-400/60 focus:ring-indigo-400/60 focus:ring-2 "
                 value={e["発注数"]}
                 // TODO onchange
                 onChange={(inputValue) => props.onChange(e, inputValue)}

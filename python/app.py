@@ -93,8 +93,11 @@ def upload_file():
         # except:
         #     print('no upload/output folder')
 
-        os.mkdir('upload/')
-        os.mkdir('output/')
+        try:
+            os.mkdir('upload/')
+            os.mkdir('output/')
+        except:
+            print('make folder error')
 
         # # 安全係数
         # safeCoff = request.form.get('week')
