@@ -12,16 +12,7 @@
 <body class="font-sans my-24 mx-2 xl:mx-4 text-slate-700 antialiased">
   <div class="p-4 shadow-md rounded-2xl shadow-blue-500/30">
     <h1>ファイル作成に<span class="gradText">成功！</span>🎉</h1>
-    <div id="description"></div>
-    <div class="bg-orange-50 ml-8 p-4 rounded-xl mb-12 text-slate-700">
-      <h3>🔥 注意</h3>
-      <ol class="text-sm leading-relaxed">
-        <li>・包装は、CHOISにファイルを取り込んだ後に変更可能なので必要に応じてメモしておきましょう。</li>
-        <li>・「削除したデータをもどす」機能はβ版です。並べ替え後に並び替え前の薬を戻すと場所が変わって危険です。</li>
-        <li>・出庫数は小数点1桁を四捨五入して表示しています。</li>
-        </p>
-    </div>
-
+    
     <div id="root"></div>
 
     <div class="mt-20">
@@ -282,17 +273,17 @@
     // NOTE : この部分はフロント実装後に書き換える
     const editList = {{ data| tojson }}
 
-    const monthNames = getMonthNames(editList[0]);
-    const headNames = [
-      "削除",
-      "医薬品名",
-      ...monthNames,
-      "平均出庫",
-      "現在庫",
-      "仕入単価",
-      "包装単位",
-      "発注数",
-    ];
+    // const monthNames = getMonthNames(editList[0]);
+    // const headNames = [
+    //   "削除",
+    //   "医薬品名",
+    //   ...monthNames,
+    //   "平均出庫",
+    //   "現在庫",
+    //   "仕入単価",
+    //   "包装単位",
+    //   "発注数",
+    // ];
 
     // NOTE: SVG  -------------------------------------------------------------
 
@@ -349,25 +340,41 @@
 
     //----------------------------------------------------------------------
 
-    const desc = ReactDOM.createRoot(document.getElementById("description"));
     function Description() {
       return (
-        <ol className="p-4 mt-4 ml-4 text-sm leading-relaxed">
-          <li>
-            ・画面👇にあるボタンから一括発注用ファイルをダウンロードできます。
-          </li>
-          <li>
-            ・表の右側にある「
-            <span className="gradText fonr-semibold">発注数</span>
-            」を変えることで、発注量を変えることもできます。
-          </li>
-          <li className="flex">
-            ・{sortSVG} 👈を押すと、リストを並び替えることができます。
-          </li>
-        </ol>
+        <div>
+          <ol className="p-4 mt-4 ml-4 text-sm leading-relaxed">
+            <li>
+              ・画面👇にあるボタンから一括発注用ファイルをダウンロードできます。
+            </li>
+            <li>
+              ・表の右側にある「
+              <span className="gradText fonr-semibold">発注数</span>
+              」を変えることで、発注量を変えることもできます。
+            </li>
+            <li className="flex">
+              ・{sortSVG} 👈を押すと、リストを並び替えることができます。
+            </li>
+          </ol>
+          <div className="bg-blue-50 ml-8 p-4 rounded-xl mb-4 text-slate-700">
+            <h3>📢 アドバイス</h3>
+            <ol className="text-sm leading-relaxed">
+              <li>・リストは編集可能ですが、金額が高いものだけ確認して発注してしまった方が早いかもしれません。</li>
+              <li>・[ Ctrl + F ] で検索可能です</li>
+            </ol>
+          </div>
+          <div className="bg-orange-50 ml-8 p-4 rounded-xl mb-12 text-slate-700">
+            <h3>🔥 注意</h3>
+            <ol className="text-sm leading-relaxed">
+              <li>・包装は、CHOISにファイルを取り込んだ後に変更可能なので必要に応じてメモしておきましょう。</li>
+              <li>・「削除したデータをもどす」機能はβ版です。並べ替え後に並び替え前の薬を戻すと場所が変わって危険です。</li>
+              <li>・出庫数は小数点1桁を四捨五入して表示しています。</li>
+            </ol>
+          </div>
+        </div>
       );
     }
-    desc.render(<Description />);
+
 
     const root = ReactDOM.createRoot(document.getElementById("root"));
     function TableHead(props) {
@@ -428,7 +435,7 @@
           >
             {e["医薬品名"]}
           </td>
-          {monthNames.map((month) => (
+          {getMonthNames(props.body[0]).map((month) => (
             <td
               key={month}
               className="max-w-[80px] text-base font-semibold font-['Segoe_UI']"
@@ -440,7 +447,9 @@
           {bodyNames.map((body) => (
             <td
               key={body}
-              className="max-w-[80px] text-base font-semibold font-['Segoe_UI']"
+              className={body === "在庫数量" ?
+                "max-w-[80px] text-base font-bold font-['Segoe_UI'] text-indigo-600"
+                : "max-w-[80px] text-base font-semibold font-['Segoe_UI'] text-slate-500"}
             >
               {e[body].toFixed(1)}
             </td>
@@ -472,6 +481,7 @@
 
       return (
         <div>
+          <Description />
           <div className="relative overflow-x-auto sm:rounded-lg h-[40rem]">
             <div className="gap-2 mb-4 flex items-center sticky top-0 block bg-white">
               <button
@@ -514,7 +524,16 @@
             </div>
             <table className="w-full shadow-md text-sm text-left text-gray-500 dark:text-gray-400 table-auto border-collapse">
               <TableHead
-                heads={headNames}
+              heads={[
+                    "削除",
+                    "医薬品名",
+                    ...getMonthNames(data[0]),
+                    "平均出庫",
+                    "現在庫",
+                    "仕入単価",
+                    "包装単位",
+                    "発注数",
+                  ]}
                 onSort={(keyName) => {
                   // console.log(keyName);
                   // console.log(sort.isAsc);

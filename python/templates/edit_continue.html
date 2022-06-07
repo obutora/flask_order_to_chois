@@ -118,7 +118,6 @@
 
     //----------------------------------------------------------------------
 
-    // const desc = ReactDOM.createRoot(document.getElementById("description"));
     function Description() {
       return (
         <div>
@@ -135,6 +134,13 @@
               ・{sortSVG} 👈を押すと、リストを並び替えることができます。
             </li>
           </ol>
+          <div className="bg-blue-50 ml-8 p-4 rounded-xl mb-4 text-slate-700">
+            <h3>📢 アドバイス</h3>
+            <ol className="text-sm leading-relaxed">
+              <li>・リストは編集可能ですが、金額が高いものだけ確認して発注してしまった方が早いかもしれません。</li>
+              <li>・[ Ctrl + F ] で検索可能です</li>
+            </ol>
+          </div>
           <div className="bg-orange-50 ml-8 p-4 rounded-xl mb-12 text-slate-700">
             <h3>🔥 注意</h3>
             <ol className="text-sm leading-relaxed">
@@ -146,7 +152,6 @@
         </div>
       );
     }
-    // desc.render(<Description />);
 
     const root = ReactDOM.createRoot(document.getElementById("root"));
     function TableHead(props) {
@@ -210,7 +215,7 @@
           {getMonthNames(props.body[0]).map((month) => (
             <td
               key={month}
-              className="max-w-[80px] text-base font-semibold font-['Segoe_UI']"
+              className="max-w-[80px] text-base text-slate-500 font-semibold font-['Segoe_UI']"
             >
               {e[month].toFixed(1)}
             </td>
@@ -219,7 +224,9 @@
           {bodyNames.map((body) => (
             <td
               key={body}
-              className="max-w-[80px] text-base font-semibold font-['Segoe_UI']"
+              className={body === "在庫数量" ?
+                "max-w-[80px] text-base font-bold font-['Segoe_UI'] text-indigo-600"
+                : "max-w-[80px] text-base font-semibold font-['Segoe_UI'] text-slate-500"}
             >
               {e[body].toFixed(1)}
             </td>
