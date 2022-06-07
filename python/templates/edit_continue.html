@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="../static/src/output.css" rel="stylesheet" />
+  <title>Order To Chois | Edit</title>
+</head>
+
+<body class="font-sans my-24 mx-2 xl:mx-4 text-slate-700 antialiased">
+  <div class="p-4 shadow-md rounded-2xl shadow-blue-500/30">
+    <p class="mb-2">ファイルを読み込んで</p>
+    <h1><span class="gradText">途中</span>からはじめる🐛</h1>
+
+    <div id="root"></div>
+
+    <div class="mt-20">
+      <a href="/" class="underline text-indigo-600 hover:text-violet-800">
+        トップ画面にもどる
+      </a>
+    </div>
+  </div>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <!-- 
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script> -->
+
+  <script src="../static/js/names.js"></script>
+  <script src="../static/js/downloadCSV.js"></script>
+
+  <script type="text/babel">
+    "use strict";
+
+    const editList = [
+      {
+        医薬品名: "テスト",
+        "2021-12": 0.0,
+        "2022-01": 0.0,
+        平均出庫量: 72.8,
+        在庫数量: 36.0,
+        JANコード: 4987896000184.0,
+        仕入単価: 1853.0,
+        包装単位: 100.0,
+        発注数: 4.0,
+      },
+    ];
+
+    // const monthNames = getMonthNames(editList[0]);
+    // const headNames = [
+    //   "削除",
+    //   "医薬品名",
+    //   ...monthNames,
+    //   "平均出庫",
+    //   "現在庫",
+    //   "仕入単価",
+    //   "包装単位",
+    //   "発注数",
+    // ];
+
+    // NOTE: SVG  -------------------------------------------------------------
+
+    const sortSVG = (
+      <svg
+        width="20"
+        height="20"
+        fill="none"
+        className="m-1"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M7.034 2a1 1 0 0 1 .945.673l2.793 8.069a1 1 0 0 1-1.89.654l-.412-1.19H5.597l-.411 1.19a1 1 0 0 1-1.89-.654l2.793-8.07A1 1 0 0 1 7.034 2Zm0 4.057-.744 2.15h1.488l-.744-2.15ZM4.749 13a1 1 0 1 0 0 2H8l-4.05 5.4a1 1 0 0 0 .8 1.6H10a1 1 0 1 0 0-2H6.75l4.05-5.4A1 1 0 0 0 10 13H4.75Zm7.544 3.293a1 1 0 0 1 1.414 0l2.292 2.292V3a1 1 0 1 1 2 0v15.586l2.294-2.293a1 1 0 0 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414Z"
+          fill="#4f46e599"
+        />
+      </svg>
+    );
+
+    const trashSVG = (
+      <svg
+        width="24"
+        height="24"
+        className="mx-auto"
+        fill="#F87171"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M10.5 9H9v9h1.5V9Z"></path>
+        <path d="M15 9h-1.5v9H15V9Z"></path>
+        <path d="M3 4.5V6h1.5v15A1.5 1.5 0 0 0 6 22.5h12a1.5 1.5 0 0 0 1.5-1.5V6H21V4.5H3ZM6 21V6h12v15H6Z"></path>
+        <path d="M15 1.5H9V3h6V1.5Z"></path>
+      </svg>
+    );
+
+    const backSVG = (
+      <svg
+        width="24"
+        height="24"
+        fill="none"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M7 19a1 1 0 0 0 1 1h5c2.242 0 4.01-.778 5.218-2.023C19.414 16.744 20 15.113 20 13.5c0-1.613-.586-3.244-1.782-4.477C17.01 7.778 15.242 7 13 7H8.414l2.043-2.043a1 1 0 0 0-1.414-1.414l-3.75 3.75a1 1 0 0 0 0 1.414l3.75 3.75a1 1 0 0 0 1.414-1.414L8.414 9H13c1.758 0 2.99.597 3.782 1.415.804.83 1.218 1.948 1.218 3.085s-.414 2.256-1.218 3.085C15.99 17.403 14.758 18 13 18H8a1 1 0 0 0-1 1Z"
+          fill="#F6F6F6"
+        />
+      </svg>
+    );
+
+    const saveSVG = (
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.75 3h-1A2.75 2.75 0 0 0 3 5.75v12.5A2.75 2.75 0 0 0 5.75 21H6v-6a2.25 2.25 0 0 1 2.25-2.25h4.813A6.477 6.477 0 0 1 17.5 11a6.47 6.47 0 0 1 3.5 1.022V8.286a3.25 3.25 0 0 0-.952-2.299l-2.035-2.035A3.25 3.25 0 0 0 15.75 3v4.5a2.25 2.25 0 0 1-2.25 2.25H9A2.25 2.25 0 0 1 6.75 7.5V3Zm1.5 11.25h3.62A6.47 6.47 0 0 0 11 17.5a6.47 6.47 0 0 0 1.022 3.5H7.5v-6a.75.75 0 0 1 .75-.75Zm6-11.25v4.5a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75V3h6ZM23 17.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0Zm-8.5-.5a.5.5 0 0 0 0 1h4.793l-1.647 1.646a.5.5 0 0 0 .708.708l2.5-2.5a.5.5 0 0 0 0-.708l-2.5-2.5a.5.5 0 0 0-.708.708L19.293 17H14.5Z" fill="#F6F6F6" /></svg>
+    )
+
+    //----------------------------------------------------------------------
+
+    // const desc = ReactDOM.createRoot(document.getElementById("description"));
+    function Description() {
+      return (
+        <div>
+          <ol className="p-4 mt-4 ml-4 text-sm leading-relaxed">
+            <li>
+              ・画面👇にあるボタンから一括発注用ファイルをダウンロードできます。
+            </li>
+            <li>
+              ・表の右側にある「
+              <span className="gradText fonr-semibold">発注数</span>
+              」を変えることで、発注量を変えることもできます。
+            </li>
+            <li className="flex">
+              ・{sortSVG} 👈を押すと、リストを並び替えることができます。
+            </li>
+          </ol>
+          <div className="bg-orange-50 ml-8 p-4 rounded-xl mb-12 text-slate-700">
+            <h3>🔥 注意</h3>
+            <ol className="text-sm leading-relaxed">
+              <li>・包装は、CHOISにファイルを取り込んだ後に変更可能なので必要に応じてメモしておきましょう。</li>
+              <li>・「削除したデータをもどす」機能はβ版です。並べ替え後に並び替え前の薬を戻すと場所が変わって危険です。</li>
+              <li>・出庫数は小数点1桁を四捨五入して表示しています。</li>
+            </ol>
+          </div>
+        </div>
+      );
+    }
+    // desc.render(<Description />);
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    function TableHead(props) {
+      return (
+        <thead className="text-sm text-indido-700 relative">
+          <tr className="sticky top-10 bg-gray-50 ">
+            {props.heads.map((e, i) => (
+              <th
+                key={e}
+                scope="col"
+                className={
+                  i === 0
+                    ? "py-3 text-center w-12"
+                    : i === 1
+                      ? "pl-6 mr-4"
+                      : "py-3 mr-4 max-w-[80px]"
+                }
+              >
+                <div className="flex items-center">
+                  {e}
+                  {e != "削除" ? (
+                    <button
+                      className="flex justify-end"
+                      onClick={(_) => props.onSort(e)}
+                    >
+                      {sortSVG}
+                    </button>
+                  ) : (
+                    <div></div>
+                  )}
+                </div>
+              </th>
+            ))}
+          </tr>
+        </thead>
+      );
+    }
+
+    function TableBody(props) {
+      return props.body.map((e) => (
+        <tr
+          key={e["医薬品名"]}
+          className="bg-white border-b dark:bg-gray-800 hover:bg-indigo-100/30 text-slate-700"
+        >
+          <th>
+            <div className="flex items-start">
+              <button
+                className=" hover:bg-slate-200/60 rounded-lg mx-auto p-2"
+                onClick={() => props.onClickRemove(e)}
+              >
+                {trashSVG}
+              </button>
+            </div>
+          </th>
+          <td
+            scope="row"
+            className="px-4 py-4 xl:text-lg text-slate-600 font-semibold break-all"
+          >
+            {e["医薬品名"]}
+          </td>
+          {getMonthNames(props.body[0]).map((month) => (
+            <td
+              key={month}
+              className="max-w-[80px] text-base font-semibold font-['Segoe_UI']"
+            >
+              {e[month].toFixed(1)}
+            </td>
+          ))}
+
+          {bodyNames.map((body) => (
+            <td
+              key={body}
+              className="max-w-[80px] text-base font-semibold font-['Segoe_UI']"
+            >
+              {e[body].toFixed(1)}
+            </td>
+          ))}
+          <td>
+            <input
+              type="number"
+              className="p-2 font-semibold text-base rounded-lg max-w-[80px] border focus:border focus:outline-none focus:border-indigo-400/60 focus:ring-indigo-400/60 focus:ring-2 "
+              value={e["発注数"]}
+              // TODO onchange
+              onChange={(inputValue) => props.onChange(e, inputValue)}
+            />
+          </td>
+        </tr>
+      ));
+    }
+
+    // TODO head にデータをいれる
+    function EditableTable() {
+      const [data, setData] = React.useState(editList);
+
+      // {"index", "value"}をもつオブジェクトとして保管しておく
+      const [removedData, setRemoved] = React.useState([]);
+      // {"sortKey", isAsc} をもつオブジェクトとして保管しておく
+      const [sort, setSort] = React.useState({
+        sortKey: "医薬品名",
+        isAsc: true,
+      });
+
+      const inputJsonRef = React.useRef(null)
+
+      React.useEffect(() => {
+        inputJsonRef.current.addEventListener('change', function (e) {
+          const file = e.target.files[0]
+
+          console.log(file)
+
+          const reader = new FileReader()
+          reader.readAsText(file)
+
+          reader.addEventListener('load', function () {
+            const result = reader.result;
+            const json = JSON.parse(result)
+            console.log(json)
+
+            setData(json)
+          })
+
+        })
+      })
+
+
+
+      if (data.length > 2) {
+        return (
+          <div>
+            <Description />
+            <div className="relative overflow-x-auto sm:rounded-lg h-[40rem]">
+              <div className="gap-2 mb-4 flex items-center sticky top-0 block bg-white">
+                <button
+                  onClick={() => {
+                    // console.log(removedData);
+                    const pastObject = removedData[removedData.length - 1];
+
+                    // console.log(pastObject);
+
+                    if (pastObject) {
+                      let newData = [...data];
+                      newData.splice(
+                        pastObject["index"],
+                        0,
+                        pastObject["value"]
+                      );
+                      // console.log(newData);
+
+                      setData(newData);
+
+                      let newRemovedData = [...removedData];
+                      newRemovedData.pop();
+
+                      setRemoved(newRemovedData);
+                    }
+                  }}
+                  className="flex gap-2 shadow-indigo-500/30 text-right bg-slate-500 hover:bg-slate-400 text-white font-bold px-4 py-2 rounded-full tracking-wider "
+                >
+                  {backSVG}
+                  削除したデータをもどす
+                </button>
+
+                <button
+                  className="flex gap-2 shadow-indigo-500/30 text-right bg-indigo-500 hover:bg-indigo-400 text-white font-bold px-4 py-2 rounded-full tracking-wider "
+                  onClick={() => downloadJson(data)}
+                >
+                  {saveSVG}
+                  一時保存用ファイルをダウンロード
+                </button>
+              </div>
+              <table className="w-full shadow-md text-sm text-left text-gray-500 dark:text-gray-400 table-auto border-collapse">
+                <TableHead
+                  heads={[
+                    "削除",
+                    "医薬品名",
+                    ...getMonthNames(data[0]),
+                    "平均出庫",
+                    "現在庫",
+                    "仕入単価",
+                    "包装単位",
+                    "発注数",
+                  ]}
+                  onSort={(keyName) => {
+                    // console.log(keyName);
+                    // console.log(sort.isAsc);
+
+                    let newSort = [...data];
+
+                    newSort.sort(function (a, b) {
+                      if (sort.isAsc) {
+                        return a[keyName] > b[keyName] ? 1 : -1;
+                      } else {
+                        return b[keyName] > a[keyName] ? 1 : -1;
+                      }
+                    });
+
+                    console.log(newSort);
+
+                    setData(newSort);
+                    setSort({
+                      sortKey: keyName,
+                      isAsc: !sort.isAsc,
+                    });
+                  }}
+                />
+                <tbody>
+                  <TableBody
+                    body={data}
+                    onChange={(col, inputValue) => {
+                      if (inputValue) {
+                        const targetIndex = data.findIndex(
+                          (e) => col["医薬品名"] === e["医薬品名"]
+                        );
+
+                        let newData = [...data];
+                        newData[targetIndex]["発注数"] =
+                          inputValue.target.value;
+
+                        // console.log(newData[targetIndex]);
+
+                        setData(newData);
+                      }
+                    }}
+                    onClickRemove={(removeData) => {
+                      const targetIndex = data.findIndex(
+                        (e) => removeData["医薬品名"] === e["医薬品名"]
+                      );
+                      console.log(targetIndex);
+
+                      setRemoved([
+                        ...removedData,
+                        {
+                          index: targetIndex,
+                          value: data[targetIndex],
+                        },
+                      ]);
+
+                      setData(
+                        data.filter(
+                          (e) => e["医薬品名"] !== removeData["医薬品名"]
+                        )
+                      );
+                    }}
+                  />
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-4 text-right">
+              <div
+                className="linkButton inline-block cursor-pointer"
+                onClick={() => downloadCSV(data)}
+              >
+                発注用ファイルをダウンロード
+              </div>
+            </div>
+
+            <div ref={inputJsonRef} >
+            </div>
+          </div>
+
+        );
+
+
+      } else {
+        return (
+          <div className="p-4 mt-12 mx-auto text-center border border-indigo-200 rounded-2xl max-w-xl">
+            <h3 className="text-2xl">保存したファイルを<span className="gradText">読み込み</span>ましょう</h3>
+            <p className="text-sm text-slate-600 mb-4">途中で保存したファイルを読み込むことで、作業を再開することが出来ます</p>
+            <input className="inputButton mt-2" type="file" id="inputJson" ref={inputJsonRef} accept="aplication/json" />
+          </div>
+        )
+      }
+
+
+    }
+    root.render(<EditableTable />);
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"
+    integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/encoding-japanese/2.0.0/encoding.min.js"
+    integrity="sha512-AhAMtLXTbhq+dyODjwnLcSlytykROxgUhR+gDZmRavVCNj6Gjta5l+8TqGAyLZiNsvJhh3J83ElyhU+5dS2OZw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+
+</html>

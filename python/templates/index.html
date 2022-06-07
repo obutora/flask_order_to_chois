@@ -126,14 +126,20 @@
   </div>
 
   <div class="mt-8 card">
-    <div class="bg-orange-50 p-4 rounded-xl mb-12 text-slate-700">
-      <h3>🔥 注意</h3>
+    <div class="border border-indigo-100 p-4 rounded-xl mb-12 text-slate-700">
+      <h2>🥏 途中から再開したい方はコチラ</h2>
       <p class="text-sm leading-relaxed">
-        一括発注用ファイルはエクセルで編集するとJANコードが自動で変更されてしまいます。<br />
-        開かずにこのツールで作成したファイルをCHOISへ取り込んでから「行削除」を使って削除してください。
+        発注途中のファイルがある場合は、こちらから再開できます。<br />
+        現在庫は自動更新されないので、できるだけ早めに発注を完了してください。
       </p>
+      <div class="mb-4 mt-8 text-right">
+        <a class="linkButton" href="./edit_continue">発注を再開する</a>
+      </div>
     </div>
+    
 
+
+    <h2 class="mt-4 mb-8">📋一括発注用ファイルを作成する</h2>
     <form method="POST" action="/upload" enctype="multipart/form-data">
       <ol class="items-start xl:flex space-y-20 xl:space-y-0">
         <li class="relative mb-6 sm:mb-0">
@@ -241,6 +247,14 @@
         <p>投薬前にポチっとするか、コーヒーを飲むなどしてお待ちください🙇</p>
       </div>
     </form>
+
+    <div class="bg-orange-50 p-4 rounded-xl mt-8 mb-12 text-slate-700">
+      <h3>🔥 注意</h3>
+      <p class="text-sm leading-relaxed">
+        一括発注用ファイルはエクセルで編集するとJANコードが自動で変更されてしまいます。<br />
+        開かずにこのツールで作成したファイルをCHOISへ取り込んでから「行削除」を使って削除してください。
+      </p>
+    </div>
   </div>
 
   <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>

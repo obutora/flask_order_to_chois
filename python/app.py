@@ -73,6 +73,10 @@ def edit():
 
     return render_template('edit.html', data=dataList)
 
+@app.route('/edit_continue')
+def editContinue():
+    return render_template('edit_continue.html')
+
 
 @app.route('/download')
 def download():

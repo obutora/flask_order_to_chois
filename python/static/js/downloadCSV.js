@@ -42,3 +42,12 @@ function downloadCSV(data) {
 
     saveAs(writeData, `【一括発注用リスト】-${new Date().getTime()}.csv`);
 }
+
+
+function downloadJson(data) {
+    const str = JSON.stringify(data)
+
+    var blob = new Blob([str], {type : 'application/json'});
+    saveAs(blob, "【一時保存】発注データ.json");
+}
+
