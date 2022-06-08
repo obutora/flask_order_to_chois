@@ -79,7 +79,7 @@ def order_to_chois(in1y, out6m, iyakusyu):
     # joinDF = outPivot.merge(inDF, how='left', on='医薬品名')
 
     joinDF.rename(columns={'JANコード_x': 'JANコード'}, inplace=True)
-    # joinDF.drop('JANコード_y', axis='columns', inplace=True)
+    joinDF.drop('JANコード_y', axis='columns', inplace=True)
     joinDF = joinDF.drop_duplicates(subset=['医薬品名'])
 
     # needCheckDF = joinDF[joinDF['包装単位'].isnull()]
