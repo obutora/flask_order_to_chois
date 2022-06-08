@@ -30,5 +30,6 @@ RUN pip install gunicorn
 WORKDIR /app/python
 EXPOSE 5000
 # coding: UTF-8
-CMD ["python", "-m", "gunicorn", "app:app", "-b", "0.0.0.0:5000"]
+CMD ["python", "-m", "gunicorn", "app:app", "-b", "0.0.0.0:5000", "-t", "120"]
+# CMD ["python", "-m", "gunicorn", "app:app", "-b", "0.0.0.0:5000"]
 
