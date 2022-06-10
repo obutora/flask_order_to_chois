@@ -140,7 +140,8 @@
 
 
     <h2 class="mt-4 mb-8">📋一括発注用ファイルを作成する</h2>
-    <form method="POST" action="/upload" enctype="multipart/form-data">
+    <!-- <form action="" enctype="multipart/form-data"> -->
+      <!-- <form method="POST" action="/upload" enctype="multipart/form-data"> -->
       <ol class="items-start xl:flex space-y-20 xl:space-y-0">
         <li class="relative mb-6 sm:mb-0">
           <div class="flex items-center">
@@ -246,7 +247,8 @@
         <p>作成には10～20秒程度の時間がかかります。</p>
         <p>投薬前にポチっとするか、コーヒーを飲むなどしてお待ちください🙇</p>
       </div>
-    </form>
+    <!-- </form> -->
+  <!-- </form> -->
 
     <div class="bg-orange-50 p-4 rounded-xl mt-8 mb-12 text-slate-700">
       <h3>🔥 注意</h3>
@@ -260,8 +262,20 @@
   <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
 
   <script>
-    function clickButton() {
+    async function clickButton() {
       console.log("click");
+
+      const file1 = document.getElementsByName('file1')[0].files[0]
+
+      const reader = new FileReader()
+      reader.readAsText(file1, 'shift-jis')
+      reader.onload = function (){
+        console.log(reader.result)
+      }
+      
+    }
+
+    function changeButtonToProgress(){
       let e = document.getElementById("progress");
       e.classList.remove("w-0");
       e.classList.add("w-8", "h-8", "animate-spin", "mr-2");
