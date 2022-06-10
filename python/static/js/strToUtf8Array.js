@@ -1,4 +1,4 @@
-function strToUtf8Array(str) {
+function strToIntArray(str) {
     var n = str.length,
         idx = -1,
         bytes = [],
