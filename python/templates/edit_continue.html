@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
 <head>
   <meta charset="UTF-8" />
@@ -215,9 +215,12 @@
           {getMonthNames(props.body[0]).map((month) => (
             <td
               key={month}
-              className="max-w-[80px] text-base text-slate-500 font-semibold font-['Segoe_UI']"
+              className={
+                e[month] == 0 ?
+                  "max-w-[80px] text-base text-slate-300 font-semibold font-['Segoe_UI']"
+                  : "max-w-[80px] text-base text-slate-500 font-semibold font-['Segoe_UI']"}
             >
-              {e[month].toFixed(1)}
+              {e[month].toFixed()}
             </td>
           ))}
 
@@ -228,7 +231,7 @@
                 "max-w-[80px] text-base font-bold font-['Segoe_UI'] text-indigo-600"
                 : "max-w-[80px] text-base font-semibold font-['Segoe_UI'] text-slate-500"}
             >
-              {e[body].toFixed(1)}
+              {e[body].toFixed()}
             </td>
           ))}
           <td>

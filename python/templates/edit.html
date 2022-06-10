@@ -12,7 +12,7 @@
 <body class="font-sans my-24 mx-2 xl:mx-4 text-slate-700 antialiased">
   <div class="p-4 shadow-md rounded-2xl shadow-blue-500/30">
     <h1>ファイル作成に<span class="gradText">成功！</span>🎉</h1>
-    
+
     <div id="root"></div>
 
     <div class="mt-20">
@@ -41,7 +41,7 @@
 
   <script type="text/babel">
     "use strict";
-    
+
     // const editList = [
     //   {
     //     医薬品名:
@@ -438,9 +438,12 @@
           {getMonthNames(props.body[0]).map((month) => (
             <td
               key={month}
-              className="max-w-[80px] text-base font-semibold font-['Segoe_UI']"
+              className={
+                e[month] == 0 ?
+                  "max-w-[80px] text-base text-slate-300 font-semibold font-['Segoe_UI']"
+                  : "max-w-[80px] text-base text-slate-500 font-semibold font-['Segoe_UI']"}
             >
-              {e[month].toFixed(1)}
+              {e[month].toFixed()}
             </td>
           ))}
 
@@ -451,7 +454,7 @@
                 "max-w-[80px] text-base font-bold font-['Segoe_UI'] text-indigo-600"
                 : "max-w-[80px] text-base font-semibold font-['Segoe_UI'] text-slate-500"}
             >
-              {e[body].toFixed(1)}
+              {e[body].toFixed()}
             </td>
           ))}
           <td>
@@ -524,16 +527,16 @@
             </div>
             <table className="w-full shadow-md text-sm text-left text-gray-500 dark:text-gray-400 table-auto border-collapse">
               <TableHead
-              heads={[
-                    "削除",
-                    "医薬品名",
-                    ...getMonthNames(data[0]),
-                    "平均出庫",
-                    "現在庫",
-                    "仕入単価",
-                    "包装単位",
-                    "発注数",
-                  ]}
+                heads={[
+                  "削除",
+                  "医薬品名",
+                  ...getMonthNames(data[0]),
+                  "平均出庫",
+                  "現在庫",
+                  "仕入単価",
+                  "包装単位",
+                  "発注数",
+                ]}
                 onSort={(keyName) => {
                   // console.log(keyName);
                   // console.log(sort.isAsc);

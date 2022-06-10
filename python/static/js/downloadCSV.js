@@ -1,9 +1,4 @@
 function downloadCSV(data) {
-    // var blob = new Blob(["Hello, world!"], {
-    //   type: "text/plain;charset=utf-8",
-    // });
-    // saveAs(blob, "hello world.txt");
-
     const header = ["JANコード", "発注数", "販売名称", "規格", "総入数／単位", "MC送信卸コード"].join(",")
 
     // console.log(name)
@@ -18,10 +13,6 @@ function downloadCSV(data) {
     const csvData = [
         header,
         t,
-        // ["列1", "列2", "列3"].map(csvFormat).join(","),
-        // ["あいうえお", "かきくけこ", "さしすせそ"].map(csvFormat).join(","),
-        // [1, 2, 3].join(","),
-        // ["キズナアイ", "輝夜月", "虹河ラキ"].map(csvFormat).join(","),
     ].join("\n");
 
     const unicodeList = [];
