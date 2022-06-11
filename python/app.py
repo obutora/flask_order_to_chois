@@ -2,7 +2,7 @@
 
 import os
 import shutil
-from flask import Flask, redirect, send_file, request, render_template
+from flask import Flask, jsonify, redirect, request_finished, send_file, request, render_template
 import zipfile
 import json
 
@@ -20,11 +20,6 @@ def hello():
 
 @app.route('/edit')
 def edit():
-    # dataList = ['a','b','c']
-    # dataList = [
-    #     {'name' : 'name1', 'value': 1},
-    #     {'name' : 'name2', 'value': 2},
-    # ]
 
     dataList = [
         {
@@ -73,6 +68,7 @@ def edit():
 
     return render_template('edit.html', data=dataList)
 
+
 @app.route('/edit_continue')
 def editContinue():
     return render_template('edit_continue.html')
@@ -88,58 +84,74 @@ def download():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
+    outputPath = './output'
 
     if request.method == 'POST':
-        # try:
-        #     shutil.rmtree('upload/')
-        #     shutil.rmtree('output/')
-
-        # except:
-        #     print('no upload/output folder')
-
         try:
-            os.mkdir('upload/')
-            os.mkdir('output/')
+            os.mkdir(outputPath)
         except:
             print('make folder error')
 
-        # # 安全係数
-        # safeCoff = request.form.get('week')
-        # return safeCoff
-
         try:
+            # print('con')
+            # print(request)
+            # file1 = request.form['file1']
+            # print(file1)
+            # file1 = request.files['file1']
+            # file2 = request.files['file2']
+            # file3 = request.files['file3']
+
+            # file1.save(os.path.join('./output/', file1.filename))
+            # file2.save(os.path.join('./upload/', file2.filename))
+            # file3.save(os.path.join('./upload/', file3.filename))
+
+            # json = order_to_chois.order_to_chois(
+            #     os.path.join('./upload/', file1.filename),
+            #     os.path.join('./upload/', file2.filename),
+            #     os.path.join('./upload/', file3.filename)
+            # )
+
             file1 = request.files['file1']
             file2 = request.files['file2']
             file3 = request.files['file3']
 
-            file1.save(os.path.join('./upload/', file1.filename))
-            file2.save(os.path.join('./upload/', file2.filename))
-            file3.save(os.path.join('./upload/', file3.filename))
+            file1.save(os.path.join(outputPath, file1.filename))
+            file2.save(os.path.join(outputPath, file2.filename))
+            file3.save(os.path.join(outputPath, file3.filename))
+
+            print('save file complete')
+            print(f'${outputPath}1y.csv.zip')
+
+            with zipfile.ZipFile(f'{outputPath}/1y.csv.zip') as zf:
+                zf.extractall(outputPath)
+            with zipfile.ZipFile(f'{outputPath}/5m.csv.zip') as zf:
+                zf.extractall(outputPath)
+            with zipfile.ZipFile(f'{outputPath}/list.csv.zip') as zf:
+                zf.extractall(outputPath)
+
+            print('unzip complete')
 
             json = order_to_chois.order_to_chois(
-                os.path.join('./upload/', file1.filename),
-                os.path.join('./upload/', file2.filename),
-                os.path.join('./upload/', file3.filename)
+                f'{outputPath}/1y.csv',
+                f'{outputPath}/5m.csv',
+                f'{outputPath}/list.csv'
             )
 
+            print('order_to_chois complete')
+
             try:
-                shutil.rmtree('upload/')
-                shutil.rmtree('output/')
-
+                shutil.rmtree(outputPath)
             except:
-                print('no upload/output folder')
+                print('no output folder')
 
-            # with zipfile.ZipFile('./output/result.zip', 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
-            #     zf.write('./output/check.csv',
-            #              arcname='【要確認】直近で発注歴がないJAN、発注する場合は手動でお願いします.csv')
-            #     zf.write('./output/detail.csv',
-            #              arcname='【必要に応じて確認】発注予定リスト.csv')
-            #     zf.write('./output/order.csv', arcname='【CHOIS用】一括発注用ファイル.csv')
+            return jsonify(json)
 
             # return render_template('download.html')
-            return render_template('edit.html', data=json)
+            # # return render_template('edit.html', data=json)
+            # # return redirect('/edit')
 
         except:
+            print('upload error')
             return render_template('error.html')
     else:
         return redirect('/')
