@@ -432,18 +432,6 @@
         },
       ];
 
-      // const monthNames = getMonthNames(editList[0]);
-      // const headNames = [
-      //   "削除",
-      //   "医薬品名",
-      //   ...monthNames,
-      //   "平均出庫",
-      //   "現在庫",
-      //   "仕入単価",
-      //   "包装単位",
-      //   "発注数",
-      // ];
-
       // NOTE: SVG  -------------------------------------------------------------
 
       const sortSVG = (
@@ -669,7 +657,7 @@
 
           const comp1 = await getZip("file1", "1y.csv");
           const comp2 = await getZip("file2", "5m.csv");
-          const comp3 = await getZip("file1", "list.csv");
+          const comp3 = await getZip("file3", "list.csv");
 
           const formData = new FormData();
           formData.append("file1", comp1);
@@ -685,108 +673,12 @@
             .then(function (response) {
               console.log(response);
 
-              setData([
-                {
-                  医薬品名: "アミティーザカプセル２４μｇ",
-                  "2021-12": 341.0,
-                  "2022-01": 231.0,
-                  "2022-02": 495.0,
-                  "2022-03": 373.0,
-                  "2022-04": 296.0,
-                  平均出庫量: 347.2,
-                  在庫数量: 144.0,
-                  JANコード: 4987888172097.0,
-                  仕入単価: 9818.0,
-                  包装単位: 100.0,
-                  発注数: 4.0,
-                },
-                {
-                  医薬品名: "アミユー配合顆粒",
-                  "2021-12": 595.0,
-                  "2022-01": 557.0,
-                  "2022-02": 432.0,
-                  "2022-03": 742.0,
-                  "2022-04": 354.0,
-                  平均出庫量: 536.0,
-                  在庫数量: 588.0,
-                  JANコード: 4987476165203.0,
-                  仕入単価: 12006.0,
-                  包装単位: 210.0,
-                  発注数: 1.0,
-                },
-                {
-                  医薬品名: "アデホスコーワ顆粒１０％",
-                  "2021-12": 411.0,
-                  "2022-01": 908.0,
-                  "2022-02": 452.0,
-                  "2022-03": 413.0,
-                  "2022-04": 861.0,
-                  平均出庫量: 609.0,
-                  在庫数量: 652.0,
-                  JANコード: 4987770528803.0,
-                  仕入単価: 10848.0,
-                  包装単位: 600.0,
-                  発注数: 1.0,
-                },
-              ]);
-              // document.write(response.data);
+              setData(response.data);
             })
             .catch(function (error) {
               console.log(error);
             });
-
-          // axios({
-          //   method: "post",
-          //   url: "/upload",
-          //   data: {
-          //     file1: comp1,
-          //     file2: comp2,
-          //     file3: comp3,
-          //   },
-          // }).then(function (response) {
-          //   console.log(response);
-          // });
-
-          // location.href = "/upload";
-
-          // var zip = new Zlib.Zip();
-
-          // const file1 = document.getElementsByName("file1")[0].files[0];
-
-          // const reader = new FileReader();
-          // reader.readAsText(file1, "shift-jis");
-          // reader.onload = function () {
-          //   console.log(reader.result);
-
-          //   zip.addFile(
-          //     strToIntArray(reader.result), {
-          //       filename: strToIntArray("1y.csv"),
-          //     }
-          //   );
-
-          //   let compless = zip.compress();
-          //   saveExport([compless])
-          // };
         }
-
-        // React.useEffect(() => {
-        //   inputJsonRef.current.addEventListener("change", function (e) {
-        //     const file = e.target.files[0];
-
-        //     console.log(file);
-
-        //     const reader = new FileReader();
-        //     reader.readAsText(file);
-
-        //     reader.addEventListener("load", function () {
-        //       const result = reader.result;
-        //       const json = JSON.parse(result);
-        //       console.log(json);
-
-        //       setData(json);
-        //     });
-        //   });
-        // });
 
         if (data.length > 2) {
           return (
@@ -956,5 +848,17 @@
       }
       root.render(<EditableTable />);
     </script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"
+      integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/encoding-japanese/2.0.0/encoding.min.js"
+      integrity="sha512-AhAMtLXTbhq+dyODjwnLcSlytykROxgUhR+gDZmRavVCNj6Gjta5l+8TqGAyLZiNsvJhh3J83ElyhU+5dS2OZw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
   </body>
 </html>

@@ -7,10 +7,14 @@ import re
 
 
 def order_to_chois(in1y, out6m, iyakusyu):
+    print('start order to chois')
+    print('in1y:', in1y)
     # %%
     # inDF = pd.read_csv('csv/in_past1y.csv', encoding='cp932')
     inUseCols = ['商品コード', '医薬品名', 'バラ換算数量', '箱数量', '仕入単価']
-    inDF = pd.read_csv(in1y, encoding='cp932', usecols=inUseCols)
+    inDF = pd.read_csv(in1y, usecols=inUseCols)
+
+    print('read in1y.csv complete')
 
     # inDF = inDF.loc[:, ['商品コード', '医薬品名', 'バラ換算数量', '箱数量', '仕入単価']]
     inDF = inDF.sort_index(ascending=False)
@@ -30,13 +34,15 @@ def order_to_chois(in1y, out6m, iyakusyu):
     # outDF = pd.read_csv(
     #     'csv/2021_12_2022_04_out_medicine.csv', encoding='cp932')
     outUseCols = ['医薬品名', '伝票日付', 'バラ換算数量', '規制', '薬価単位']
-    outDF = pd.read_csv(out6m, encoding='cp932', usecols=outUseCols, dtype={
+    outDF = pd.read_csv(out6m, usecols=outUseCols, dtype={
         '医薬品名': str,
         '伝票日付': str,
         'バラ換算数量': float,
         '規制': 'category',
         '薬価単位': 'category'}
     )
+
+    print('read out5m.csv complete')
 
     outDF = outDF[outDF['規制'] != '麻薬']
     outDF = outDF[outDF['薬価単位'] != 'ＭＬ']
@@ -62,12 +68,16 @@ def order_to_chois(in1y, out6m, iyakusyu):
 
     outPivot['std'] = std
     outPivot['avg'] = avg
+
+    print('try read list.csv')
     # outPivot.head()
 
     medUseCols = ['医薬品名', 'YJコード', 'JANコード', '在庫数量']
-    medDF = pd.read_csv(iyakusyu, encoding='cp932', usecols=medUseCols, dtype={
+    medDF = pd.read_csv(iyakusyu, usecols=medUseCols, dtype={
         '医薬品名': str, 'YJコード': str, 'JANコード': str, '在庫数量': float
     })
+
+    print('read list.csv complete')
     # medDF = medDF.loc[:, ['医薬品名', 'YJコード', 'JANコード', '在庫数量']]
     # medDF = medDF.loc[:, ['医薬品名','在庫数量']]
 
@@ -81,6 +91,8 @@ def order_to_chois(in1y, out6m, iyakusyu):
     joinDF.rename(columns={'JANコード_x': 'JANコード'}, inplace=True)
     joinDF.drop('JANコード_y', axis='columns', inplace=True)
     joinDF = joinDF.drop_duplicates(subset=['医薬品名'])
+
+    print('joinDF drop duplicates')
 
     # needCheckDF = joinDF[joinDF['包装単位'].isnull()]
     # needCheckDF.to_csv(
@@ -113,6 +125,8 @@ def order_to_chois(in1y, out6m, iyakusyu):
     # display(joinDF.head())
     joinDF.drop(columns=['std', 'YJコード', 'バラ換算数量', '箱数量', '発注量'], inplace=True)
     joinDF.rename(columns={'avg': '平均出庫量'}, inplace=True)
+
+    print('joinDF complete')
 
     # joinDF.to_csv('output/detail.csv', encoding='cp932')
 
