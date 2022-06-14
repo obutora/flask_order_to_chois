@@ -84,7 +84,7 @@ def download():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
-    outputPath = './output'
+    outputPath = './upload'
 
     if request.method == 'POST':
         try:
@@ -93,61 +93,67 @@ def upload_file():
             print('make folder error')
 
         try:
-            # print('con')
-            # print(request)
+            print(request.files)
             # file1 = request.form['file1']
             # print(file1)
-            # file1 = request.files['file1']
-            # file2 = request.files['file2']
-            # file3 = request.files['file3']
-
-            # file1.save(os.path.join('./output/', file1.filename))
-            # file2.save(os.path.join('./upload/', file2.filename))
-            # file3.save(os.path.join('./upload/', file3.filename))
-
-            # json = order_to_chois.order_to_chois(
-            #     os.path.join('./upload/', file1.filename),
-            #     os.path.join('./upload/', file2.filename),
-            #     os.path.join('./upload/', file3.filename)
-            # )
-
             file1 = request.files['file1']
             file2 = request.files['file2']
             file3 = request.files['file3']
 
-            file1.save(os.path.join(outputPath, file1.filename))
-            file2.save(os.path.join(outputPath, file2.filename))
-            file3.save(os.path.join(outputPath, file3.filename))
-
-            print('save file complete')
-            print(f'${outputPath}1y.csv.zip')
-
-            with zipfile.ZipFile(f'{outputPath}/1y.csv.zip') as zf:
-                zf.extractall(outputPath)
-            with zipfile.ZipFile(f'{outputPath}/5m.csv.zip') as zf:
-                zf.extractall(outputPath)
-            with zipfile.ZipFile(f'{outputPath}/list.csv.zip') as zf:
-                zf.extractall(outputPath)
-
-            print('unzip complete')
+            file1.save(os.path.join('./upload/', file1.filename))
+            file2.save(os.path.join('./upload/', file2.filename))
+            file3.save(os.path.join('./upload/', file3.filename))
 
             json = order_to_chois.order_to_chois(
-                f'{outputPath}/1y.csv',
-                f'{outputPath}/5m.csv',
-                f'{outputPath}/list.csv'
+                os.path.join('./upload/', file1.filename),
+                os.path.join('./upload/', file2.filename),
+                os.path.join('./upload/', file3.filename)
             )
 
-            print('order_to_chois complete')
-
             try:
-                shutil.rmtree(outputPath)
+                os.remove(os.path.join('./upload/', file1.filename))
+                os.remove(os.path.join('./upload/', file2.filename))
+                os.remove(os.path.join('./upload/', file3.filename))
             except:
                 print('no output folder')
 
-            return jsonify(json)
+            # file1 = request.files['file1']
+            # file2 = request.files['file2']
+            # file3 = request.files['file3']
+
+            # file1.save(os.path.join(outputPath, file1.filename))
+            # file2.save(os.path.join(outputPath, file2.filename))
+            # file3.save(os.path.join(outputPath, file3.filename))
+
+            # print('save file complete')
+            # print(f'${outputPath}1y.csv.zip')
+
+            # with zipfile.ZipFile(f'{outputPath}/1y.csv.zip') as zf:
+            #     zf.extractall(outputPath)
+            # with zipfile.ZipFile(f'{outputPath}/5m.csv.zip') as zf:
+            #     zf.extractall(outputPath)
+            # with zipfile.ZipFile(f'{outputPath}/list.csv.zip') as zf:
+            #     zf.extractall(outputPath)
+
+            # print('unzip complete')
+
+            # json = order_to_chois.order_to_chois(
+            #     f'{outputPath}/1y.csv',
+            #     f'{outputPath}/5m.csv',
+            #     f'{outputPath}/list.csv'
+            # )
+
+            # print('order_to_chois complete')
+
+            # try:
+            #     shutil.rmtree(outputPath)
+            # except:
+            #     print('no output folder')
+
+            # return jsonify(json)
 
             # return render_template('download.html')
-            # # return render_template('edit.html', data=json)
+            return render_template('edit.html', data=json)
             # # return redirect('/edit')
 
         except:

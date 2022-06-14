@@ -12,7 +12,7 @@ def order_to_chois(in1y, out6m, iyakusyu):
     # %%
     # inDF = pd.read_csv('csv/in_past1y.csv', encoding='cp932')
     inUseCols = ['商品コード', '医薬品名', 'バラ換算数量', '箱数量', '仕入単価']
-    inDF = pd.read_csv(in1y, usecols=inUseCols)
+    inDF = pd.read_csv(in1y, usecols=inUseCols, encoding='cp932')
 
     print('read in1y.csv complete')
 
@@ -39,7 +39,8 @@ def order_to_chois(in1y, out6m, iyakusyu):
         '伝票日付': str,
         'バラ換算数量': float,
         '規制': 'category',
-        '薬価単位': 'category'}
+        '薬価単位': 'category'},
+        encoding='cp932'
     )
 
     print('read out5m.csv complete')
@@ -73,7 +74,7 @@ def order_to_chois(in1y, out6m, iyakusyu):
     # outPivot.head()
 
     medUseCols = ['医薬品名', 'YJコード', 'JANコード', '在庫数量']
-    medDF = pd.read_csv(iyakusyu, usecols=medUseCols, dtype={
+    medDF = pd.read_csv(iyakusyu, usecols=medUseCols, encoding='cp932', dtype={
         '医薬品名': str, 'YJコード': str, 'JANコード': str, '在庫数量': float
     })
 
