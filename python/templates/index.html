@@ -292,7 +292,7 @@
         const reader = new FileReader();
         reader.readAsText(file, "shift-jis");
         reader.onload = function () {
-          console.log(reader.result[0]);
+          // console.log(reader.result[0]);
 
           zip.addFile(strToIntArray(reader.result), {
             filename: strToIntArray(saveFileName),
