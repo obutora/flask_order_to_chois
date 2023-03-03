@@ -10,13 +10,11 @@ def order_to_chois(in1y, out6m, iyakusyu):
     print('start order to chois')
     print('in1y:', in1y)
     # %%
-    # inDF = pd.read_csv('csv/in_past1y.csv', encoding='cp932')
     inUseCols = ['商品コード', '医薬品名', 'バラ換算数量', '箱数量', '仕入単価']
     inDF = pd.read_csv(in1y, usecols=inUseCols)
 
     print('read in1y.csv complete')
 
-    # inDF = inDF.loc[:, ['商品コード', '医薬品名', 'バラ換算数量', '箱数量', '仕入単価']]
     inDF = inDF.sort_index(ascending=False)
     inDF = inDF.drop_duplicates()
     inDF['包装単位'] = inDF['バラ換算数量'] / inDF['箱数量']
@@ -25,9 +23,6 @@ def order_to_chois(in1y, out6m, iyakusyu):
     inDF.rename(columns={'商品コード': 'JANコード'}, inplace=True)
     # 逆順にする。仕入単価は毎回違うので最新の金額を反映するため
     inDF[inDF.columns[::-1]]
-    # orderDF.rename(columns={'医薬品名':'販売名称'}, inplace=True)
-    # display(inDF.head())
-    # display(len(inDF))
 
     # %%
     # 出庫量の読み込みと、必要な列のみ抽出
@@ -55,8 +50,6 @@ def order_to_chois(in1y, out6m, iyakusyu):
     m = re.compile(r'\d{4}\/([1-9])\/(0?[1-9]|[12][0-9]|3[01])$')
     outDF['伝票日付'] = outDF['伝票日付'].apply(
         lambda x: x[:6] if m.match(x) else x[:7])
-    # outDF.head()
-    # print(len(outDF))
 
     # %%
     outPivot = pd.pivot_table(
@@ -78,10 +71,6 @@ def order_to_chois(in1y, out6m, iyakusyu):
     })
 
     print('read list.csv complete')
-    # medDF = medDF.loc[:, ['医薬品名', 'YJコード', 'JANコード', '在庫数量']]
-    # medDF = medDF.loc[:, ['医薬品名','在庫数量']]
-
-    # medDF.head()
 
     # %%
     joinDF = outPivot.merge(medDF, how='left', on='医薬品名')
@@ -93,16 +82,6 @@ def order_to_chois(in1y, out6m, iyakusyu):
     joinDF = joinDF.drop_duplicates(subset=['医薬品名'])
 
     print('joinDF drop duplicates')
-
-    # needCheckDF = joinDF[joinDF['包装単位'].isnull()]
-    # needCheckDF.to_csv(
-    #     'output/check.csv', encoding='cp932')
-
-    # Nullになっている行を表示しておく
-    # print('JANコードがNaNのもの')
-    # display(len(joinDF[joinDF['JANコード'].isnull()]))
-    # print('包装単位がNaNのもの')
-    # display(len(needCheckDF))
 
     # その後NaNは処理
     joinDF = joinDF.dropna()
@@ -127,23 +106,6 @@ def order_to_chois(in1y, out6m, iyakusyu):
     joinDF.rename(columns={'avg': '平均出庫量'}, inplace=True)
 
     print('joinDF complete')
-
-    # joinDF.to_csv('output/detail.csv', encoding='cp932')
-
-    # %%
-    # orderDF = joinDF.loc[:, ['JANコード', '発注数', '医薬品名']]
-    # orderDF.rename(columns={'医薬品名': '販売名称'}, inplace=True)
-    # orderDF['規格'] = 0
-    # orderDF['総入数／単位'] = 0
-    # orderDF['MC送信卸コード'] = 0
-
-    # orderDF['JANコード'] = orderDF['JANコード'].astype(str).str[:-2]
-    # orderDF['発注数'] = orderDF['発注数'].astype(str).str[:-2]
-
-    # orderDF.head()
-
-    # %%
-    # orderDF.to_csv('output/order.csv', encoding='cp932', index=False)
 
     json = list(joinDF.to_dict(orient='index').values())
 
