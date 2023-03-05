@@ -117,6 +117,9 @@ def upload_file():
             except:
                 print('no output folder')
 
+            # データ転送速度がネックと考え
+            # ブラウザでZIPしたDataを受け取って展開する方法を実装していたが、
+            # かえってブラウザでZIP→サーバーで展開の処理に時間がかかり、遅くなったため削除した。
             # file1 = request.files['file1']
             # file2 = request.files['file2']
             # file3 = request.files['file3']
