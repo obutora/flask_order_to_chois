@@ -16,9 +16,8 @@ Excelで開くと、JANコードのデータが破損してしまう為、
 
 ## ローカルのPython環境で動かす場合
 ### 必要なライブラリ
- - Flask
- - Pandas
- - Numpy
+Flask, Pandas, Numpy など  
+詳しくは`requirements.txt`を参照してください。
 
 ### 実行
 `flask run --debugger --reload`　または `python -m flask run --debugger --reload`
