@@ -58,9 +58,11 @@ def order_to_chois(in1y, out6m, iyakusyu):
     outPivot = outPivot.fillna(0)
 
     std = outPivot.std(axis=1)
+    sd = outPivot.sem(axis=1)
     avg = outPivot.mean(axis=1)
 
     outPivot['std'] = std
+    outPivot['se'] = sd
     outPivot['avg'] = avg
 
     print('try read list.csv')
@@ -91,10 +93,7 @@ def order_to_chois(in1y, out6m, iyakusyu):
 
     # %%
     # 2SE + AVG - 在庫数量
-    # SE = std / sqrt(n)
-    # sqrt(5) = 2.236, sqrt(6)=2.449
-    # 2SE ≒ 2 * std / sqrt(n) ≒ std
-    joinDF['発注量'] = 2*joinDF['std'] + joinDF['avg'] - joinDF['在庫数量']
+    joinDF['発注量'] = 2*joinDF['se'] + joinDF['avg'] - joinDF['在庫数量']
 
     # 出庫量が0以下になるものは除外しておく
     joinDF = joinDF[joinDF['発注量'] > 0]
@@ -103,7 +102,7 @@ def order_to_chois(in1y, out6m, iyakusyu):
     joinDF['発注数'] = (joinDF['発注量'] / joinDF['包装単位']).round()
     joinDF = joinDF[joinDF['発注数'] > 0]
     # display(joinDF.head())
-    joinDF.drop(columns=['std', 'YJコード', 'バラ換算数量', '箱数量', '発注量'], inplace=True)
+    joinDF.drop(columns=['std', 'se', 'YJコード', 'バラ換算数量', '箱数量', '発注量'], inplace=True)
     joinDF.rename(columns={'avg': '平均出庫量'}, inplace=True)
 
     print('joinDF complete')
